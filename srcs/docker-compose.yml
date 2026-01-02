@@ -1,0 +1,84 @@
+services:
+# Web Server (Proxy)
+  nginx: 
+    build: ./requirements/nginx
+    image: nginx
+    container_name: nginx 
+    ports:
+      - "443:443"
+    volumes:
+      - nginx_conf:/etc/nginx/sites-enabled/default
+    #  - wordpress_vm:/var/www/html
+    networks:
+      - transcendence
+    depends_on:
+      #wordpress:
+      #  condition: service_healthy
+    restart: always
+
+  # Database
+  mariadb:
+    build: ./requirements/mariadb
+    image: mariadb:10.11
+    container_name: mariadb
+    environment:
+      MARIADB_DATABASE: ${NAME_DB}
+      MARIADB_USER: ${USER_NAME_DB}
+      MARIADB_PASSWORD: ${USER_PASSWD_DB}
+      MARIADB_ROOT_PASSWORD: ${ROOT_PASSWD_DB}
+    volumes:
+      - mariadb_vm:/var/lib/mysql
+    networks:
+      - transcendence
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ls /var/lib/mysql/${NAME_DB} && mysqladmin ping -u root -p${ROOT_PASSWD_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    env_file: .env
+    restart: always
+  
+  wordpress:
+    build: ./requirements/wordpress
+    image: wordpress
+    container_name: wordpress
+    volumes:
+      - wordpress_vm:/var/www/html
+    networks:
+      - transcendence
+    healthcheck:
+      test: ["CMD", "ls", "/var/run/php/php8.2-fpm.pid"]
+      interval: 5s
+      timeout: 1s
+      retries: 10
+    depends_on:
+      mariadb:
+        condition: service_healthy
+    env_file: .env
+    restart: always
+
+volumes:
+  mariadb_vm:
+    driver: local
+    driver_opts:
+      device: "./database"
+      o: bind
+      type: none
+  nginx_conf:
+    driver: local
+    driver_opts:
+      device: "./requirements/nginx/conf/default"
+      o: bind
+      type: none
+  wordpress_vm:
+    driver: local
+    driver_opts:
+      device: "/home/daortega/data/wordpress"
+      o: bind
+      type: none
+
+networks:
+  transcendence:
+    name: transcendence
+    driver: bridge
