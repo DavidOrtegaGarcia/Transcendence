@@ -1,14 +1,30 @@
 services:
 # Web Server (Proxy)
+  certificate-authority: 
+    build: ./services/certificate-authority
+    image: transcendence-ca
+    container_name: transcendence-ca 
+    volumes:
+      - ./services/certificate-authority/certs:/certs
+      - ./services/certificate-authority/keys:/keys
+    healthcheck:
+      test: ["CMD", "test", "-s", "/certs/mariadb/mariadb.crt"]
+      interval: 2s
+      timeout: 2s
+      retries: 10
+    restart: no
+
   nginx: 
-    build: ./requirements/nginx
+    build: ./services/nginx
     image: nginx
     container_name: nginx 
     ports:
       - "443:443"
     volumes:
-      - nginx_conf:/etc/nginx/sites-enabled/default
-    #  - wordpress_vm:/var/www/html
+      - nginx_conf:/etc/nginx/conf.d/default.conf
+      - ./services/certificate-authority/certs/nginx:/etc/ssl/certs/nginx
+      - ./services/certificate-authority/keys/nginx:/etc/ssl/private/nginx
+      - ./services/certificate-authority/certs/transcendence-ca:/etc/ssl/certs/transcendence-ca
     networks:
       - transcendence
     depends_on:
@@ -18,7 +34,7 @@ services:
 
   # Database
   mariadb:
-    build: ./requirements/mariadb
+    build: ./services/mariadb
     image: mariadb:10.11
     container_name: mariadb
     environment:
@@ -40,7 +56,7 @@ services:
     restart: always
   
   wordpress:
-    build: ./requirements/wordpress
+    build: ./services/wordpress
     image: wordpress
     container_name: wordpress
     volumes:
@@ -62,13 +78,13 @@ volumes:
   mariadb_vm:
     driver: local
     driver_opts:
-      device: "./database"
+      device: "./services/mariadb/database"
       o: bind
       type: none
   nginx_conf:
     driver: local
     driver_opts:
-      device: "./requirements/nginx/conf/default"
+      device: "./services/nginx/conf/default.conf"
       o: bind
       type: none
   wordpress_vm:
