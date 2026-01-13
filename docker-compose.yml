@@ -1,19 +1,5 @@
 services:
 # Web Server (Proxy)
-  certificate-authority: 
-    build: ./services/certificate-authority
-    image: transcendence-ca
-    container_name: transcendence-ca 
-    volumes:
-      - ./services/certificate-authority/certs:/certs
-      - ./services/certificate-authority/keys:/keys
-    healthcheck:
-      test: ["CMD", "test", "-s", "/certs/mariadb/mariadb.crt"]
-      interval: 2s
-      timeout: 2s
-      retries: 10
-    restart: no
-
   nginx: 
     build: ./services/nginx
     image: nginx
@@ -21,21 +7,31 @@ services:
     ports:
       - "443:443"
     volumes:
-      - nginx_conf:/etc/nginx/conf.d/default.conf
-      - ./services/certificate-authority/certs/nginx:/etc/ssl/certs/nginx
-      - ./services/certificate-authority/keys/nginx:/etc/ssl/private/nginx
-      - ./services/certificate-authority/certs/transcendence-ca:/etc/ssl/certs/transcendence-ca
+      - ./services/nginx/conf:/etc/nginx/conf.d
+      - ./certs:/etc/ssl/certs
+      - ./private:/etc/ssl/private
     networks:
       - transcendence
     depends_on:
-      #wordpress:
-      #  condition: service_healthy
+      mariadb:
+        condition: service_healthy
+    restart: always
+
+  adminer:
+    build: ./services/adminer
+    image: adminer
+    container_name: adminer
+    networks:
+      - transcendence
+    depends_on:
+      mariadb:
+        condition: service_healthy
     restart: always
 
   # Database
   mariadb:
     build: ./services/mariadb
-    image: mariadb:10.11
+    image: mariadb
     container_name: mariadb
     environment:
       MARIADB_DATABASE: ${NAME_DB}
@@ -47,7 +43,7 @@ services:
     networks:
       - transcendence
     healthcheck:
-      test: ["CMD", "sh", "-c", "ls /var/lib/mysql/${NAME_DB} && mysqladmin ping -u root -p${ROOT_PASSWD_DB}" ]
+      test: ["CMD-SHELL", "test -s /var/lib/mysql/${NAME_DB} && mysqladmin ping -u root -p${ROOT_PASSWD_DB}" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -55,36 +51,30 @@ services:
     env_file: .env
     restart: always
   
-  wordpress:
-    build: ./services/wordpress
-    image: wordpress
-    container_name: wordpress
-    volumes:
-      - wordpress_vm:/var/www/html
-    networks:
-      - transcendence
-    healthcheck:
-      test: ["CMD", "ls", "/var/run/php/php8.2-fpm.pid"]
-      interval: 5s
-      timeout: 1s
-      retries: 10
-    depends_on:
-      mariadb:
-        condition: service_healthy
-    env_file: .env
-    restart: always
+  #wordpress:
+  #  build: ./services/wordpress
+  #  image: wordpress
+  #  container_name: wordpress
+  #  volumes:
+  #    - wordpress_vm:/var/www/html
+  #  networks:
+  #    - transcendence
+  #  healthcheck:
+  #    test: ["CMD", "ls", "/var/run/php/php8.2-fpm.pid"]
+  #    interval: 5s
+  #    timeout: 1s
+  #    retries: 10
+  #  depends_on:
+  #    mariadb:
+  #      condition: service_healthy
+  #  env_file: .env
+  #  restart: always
 
 volumes:
   mariadb_vm:
     driver: local
     driver_opts:
-      device: "./services/mariadb/database"
-      o: bind
-      type: none
-  nginx_conf:
-    driver: local
-    driver_opts:
-      device: "./services/nginx/conf/default.conf"
+      device: "${PWD}/database"
       o: bind
       type: none
   wordpress_vm:
