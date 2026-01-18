@@ -7,7 +7,7 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./services/nginx/conf:/etc/nginx/conf.d
+      - ./services/nginx/conf:/etc/nginx/conf.d 
       - ./certs:/etc/ssl/certs
       - ./private:/etc/ssl/private
     networks:
@@ -15,6 +15,26 @@ services:
     depends_on:
       mariadb:
         condition: service_healthy
+      frontend:
+        condition: service_healthy
+    restart: always
+
+# Frontend (React)
+  frontend:
+    build: ./services/frontend
+    image: frontend
+    container_name: frontend
+    volumes:
+      - ./services/frontend/app:/app
+      - node_modules_vm:/app/node_modules # To keep the container internal modules
+    networks:
+      - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:5173/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
     restart: always
 
   adminer:
@@ -50,37 +70,14 @@ services:
       start_period: 15s
     env_file: .env
     restart: always
-  
-  #wordpress:
-  #  build: ./services/wordpress
-  #  image: wordpress
-  #  container_name: wordpress
-  #  volumes:
-  #    - wordpress_vm:/var/www/html
-  #  networks:
-  #    - transcendence
-  #  healthcheck:
-  #    test: ["CMD", "ls", "/var/run/php/php8.2-fpm.pid"]
-  #    interval: 5s
-  #    timeout: 1s
-  #    retries: 10
-  #  depends_on:
-  #    mariadb:
-  #      condition: service_healthy
-  #  env_file: .env
-  #  restart: always
 
 volumes:
+  node_modules_vm:
+
   mariadb_vm:
     driver: local
     driver_opts:
       device: "${PWD}/database"
-      o: bind
-      type: none
-  wordpress_vm:
-    driver: local
-    driver_opts:
-      device: "/home/daortega/data/wordpress"
       o: bind
       type: none
 
@@ -88,3 +85,10 @@ networks:
   transcendence:
     name: transcendence
     driver: bridge
+
+
+#Volumes and bind mounts that have to be remove when develompent ends:
+#   - ./services/nginx/conf:/etc/nginx/conf.d
+#   - ./services/frontend/app:/app
+#   - node_modules_vm:/app/node_modules 
+#   - ./services/nginx/conf:/etc/nginx/conf.d 

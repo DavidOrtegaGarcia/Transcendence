@@ -1,0 +1,16 @@
+#Docker files
+Dockerfile
+.dockerignore
+.env
+
+# Environment specific dependencies and build outputs
+app/node_modules
+app/dist
+*.log
+
+#Git files
+.git
+.gitignore
+
+#Documentation
+app/README.md
