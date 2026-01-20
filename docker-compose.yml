@@ -7,13 +7,19 @@ services:
     ports:
       - "443:443"
     volumes:
-      - ./services/nginx/conf:/etc/nginx/conf.d 
-      - ./certs:/etc/ssl/certs
-      - ./private:/etc/ssl/private
+      - ${PWD}/services/nginx/conf:/etc/nginx/conf.d 
+      - ${PWD}/certs:/etc/ssl/certs
+      - ${PWD}/private:/etc/ssl/private
     networks:
       - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "curl -k -f https://localhost || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
     depends_on:
-      mariadb:
+      reverb:
         condition: service_healthy
       frontend:
         condition: service_healthy
@@ -34,18 +40,92 @@ services:
       interval: 10s
       timeout: 5s
       retries: 3
-      start_period: 20s
+      start_period: 15s
     restart: always
 
+# Backend (Laravel)
   laravel:
     build: ./services/php
-    image: laravel
+    image: php
     container_name: laravel
     volumes:
-      - ./services/php/www:/var/www
+      - ${PWD}/services/php/www:/var/www
+      - php_vendor_vm:/var/www/vendor # To keep the container internal modules
+      - ${PWD}/services/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+    - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: always
+
+# Websocket (Reverb)
+  reverb:
+    build: ./services/php
+    image: php
+    container_name: reverb
+    command: php artisan reverb:start --host=0.0.0.0 --port=6001 --debug
+    volumes:
+      - ${PWD}/services/php/www:/var/www
       - php_vendor_vm:/var/www/vendor # To keep the container internal modules
     networks:
     - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:6001 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    depends_on:
+      laravel:
+        condition: service_healthy
+    restart: always
+
+  laravel_worker:
+    build: ./services/php
+    image: php  
+    container_name: laravel_worker
+    command: php artisan queue:work --verbose --tries=3 --timeout=90
+    volumes:
+      - ${PWD}/services/php/www:/var/www
+      - php_vendor_vm:/var/www/vendor # To keep the container internal modules
+      - ${PWD}/services/php/php.ini:/usr/local/etc/php/conf.d/custom.ini
+    networks:
+      - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "ps aux | grep 'queue:work' || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+    depends_on:
+      laravel:
+        condition: service_healthy
+    restart: always
+
+ # Cache & Queue (Redis)
+  redis:
+    build: ./services/redis
+    image: redis
+    container_name: redis
+    volumes:
+      - redis_vm:
+    networks:
+    - transcendence
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    start_period: 5s
+    restart: always
 
   adminer:
     build: ./services/adminer
@@ -77,14 +157,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 15s
+      start_period: 20s
     env_file: .env
     restart: always
 
 volumes:
   node_modules_vm:
   php_vendor_vm:
-
+  
+  # We use Bind Mount Volumes when targeting databases to keep container permissions,
+  # user owner and group owner of the files
+  redis_vm:
+    driver: local
+    driver_opts:
+      device: "${PWD}/services/redis/data"
+      o: bind
+      type: none
+  
   mariadb_vm:
     driver: local
     driver_opts:

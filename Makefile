@@ -4,13 +4,17 @@ up:
 	mkdir -p $(CURDIR)/database
 	mkdir -p $(CURDIR)/certs
 	mkdir -p $(CURDIR)/private
+	mkdir -p $(CURDIR)/services/redis/data
 	docker compose up -d --build #-d to run docker as a background process
 
 down: 
 	docker compose down
 clean: down
 	# We create a tmp container to remove the mount volumes
-	docker run --rm -v $(CURDIR):/tmp alpine rm -rf /tmp/database /tmp/certs /tmp/private
+	docker run --rm -v $(CURDIR):/tmp alpine rm -rf /tmp/database \
+		/tmp/certs \
+		/tmp/private \
+		/tmp/services/redis/data
 
 	@if [ ! -z "$$(docker ps -qa)" ]; then \
 		docker stop $$(docker ps -qa); \

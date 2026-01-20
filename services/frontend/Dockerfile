@@ -1,6 +1,6 @@
 FROM node:20
 
-# Build time 
+# BUILD TIME
 RUN apt-get update && apt-get install -y curl
 
 WORKDIR /app
@@ -18,6 +18,6 @@ RUN chmod +x /usr/local/bin/install_libraries.sh
 
 EXPOSE 5173
 
-# Run time 
+# RUN TIME
 ENTRYPOINT [ "/usr/local/bin/install_libraries.sh" ]
 CMD ["npm", "run", "dev", "--", "--host"]
