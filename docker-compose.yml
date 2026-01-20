@@ -37,6 +37,16 @@ services:
       start_period: 20s
     restart: always
 
+  laravel:
+    build: ./services/php
+    image: laravel
+    container_name: laravel
+    volumes:
+      - ./services/php/www:/var/www
+      - php_vendor_vm:/var/www/vendor # To keep the container internal modules
+    networks:
+    - transcendence
+
   adminer:
     build: ./services/adminer
     image: adminer
@@ -73,6 +83,7 @@ services:
 
 volumes:
   node_modules_vm:
+  php_vendor_vm:
 
   mariadb_vm:
     driver: local

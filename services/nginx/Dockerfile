@@ -11,3 +11,4 @@ EXPOSE 443
 
 # Run time 
 ENTRYPOINT ["/usr/local/bin/get_certificate.sh"]
+CMD ["nginx", "-g", "daemon off;"]

@@ -9,4 +9,4 @@ if [ ! -f $cert ]; then
 		-subj "/C=ES/ST=BCN/L=BCN/O=42/OU=CC/CN=localhost"
 fi
 
-exec nginx -g 'daemon off;'
+exec "$@"

@@ -6,6 +6,7 @@ Dockerfile
 # Environment specific dependencies and build outputs
 app/node_modules
 app/dist
+app/build
 *.log
 
 #Git files
