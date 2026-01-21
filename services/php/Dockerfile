@@ -45,12 +45,18 @@ RUN composer dump-autoload --optimize
 
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
 
-# Script to install new libraries if needed
-COPY ./tools/install_libraries.sh /usr/local/bin/install_libraries.sh
-RUN chmod +x /usr/local/bin/install_libraries.sh
+COPY ./conf/php.ini /usr/local/etc/php/conf.d/custom.ini
+RUN chmod 644 /usr/local/etc/php/conf.d/custom.ini
 
-EXPOSE 9000
+# Script to install new dependencies and setup new databases if needed
+COPY ./tools/setup.sh /usr/local/bin/setup.sh
+RUN chmod +x /usr/local/bin/setup.sh
+
+# Laravel port
+EXPOSE 9000 
+# Reverb port
+EXPOSE 6001
 
 # RUN TIME
-ENTRYPOINT [ "/usr/local/bin/install_libraries.sh" ]
+ENTRYPOINT [ "/usr/local/bin/setup.sh" ]
 CMD ["php-fpm"]

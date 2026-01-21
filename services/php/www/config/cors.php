@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['GET', 'POST', 'DELETE', 'PUT', 'PATCH', 'OPTIONS'],
 
-    'allowed_origins' => [[env('SPA_URL')],
+    'allowed_origins' => [env('SPA_URL')],
 
     'allowed_origins_patterns' => [],
 
