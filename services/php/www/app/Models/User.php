@@ -4,13 +4,17 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Fortify\TwoFactorAuthenticatable;
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, HasApiTokens, TwoFactorAuthenticatable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +25,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar',
+        'bio',
+        'experience',
     ];
 
     /**
@@ -44,5 +51,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function oauthIdentities(): HasMany
+    {
+        return $this->hasMany(OAuthIdentity::class);
     }
 }

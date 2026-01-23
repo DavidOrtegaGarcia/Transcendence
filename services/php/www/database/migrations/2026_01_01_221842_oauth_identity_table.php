@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('products', function (Blueprint $table) {
+        Schema::create('oauth_identity', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+    
+            $table->string('provider');
+            $table->string('provider_id')->comment('sub, id, etc');
+            $table->string('email')->nullable();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
         });
     }
 
@@ -22,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('oauth_identity');
     }
 };
