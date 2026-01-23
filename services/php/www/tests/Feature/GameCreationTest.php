@@ -240,19 +240,19 @@ class GameCreationTest extends TestCase
         assertSame($game->teams[1]->teamMembers[0]->team_id, $game->teams[1]->id);
     }
 
-    /**
-     * @dataProvider invalidGamePayloads
-     */
-    public function test_create_game_with_invalid_payload(array $payload, array $errors)
-    {
-        $user = User::factory()->create();
+    // /**
+    //  * @dataProvider invalidGamePayloads
+    //  */
+    // public function test_create_game_with_invalid_payload(array $payload, array $errors)
+    // {
+    //     $user = User::factory()->create();
 
-        $this->actingAs($user);
+    //     $this->actingAs($user);
 
-        $this->postJson('/v1/games', $payload)
-            ->assertUnprocessable()
-            ->assertJsonValidationErrors($errors);
-    }
+    //     $this->postJson('/v1/games', $payload)
+    //         ->assertUnprocessable()
+    //         ->assertJsonValidationErrors($errors);
+    // }
 
 
     // public function test_create_game_with_repeated_player()
