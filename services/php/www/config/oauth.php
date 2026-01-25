@@ -44,11 +44,11 @@ return [
     ],
 
     // Path for the SPA to retrieve an URI. This URI is where the user should be sent at first.
-    'uri_generation' => '/oauth-uri',
+    'uri_generation' => '/oauth/uri',
 
     // Path for the server redirection. Loads a loading page and sends a POST request to the backend.
-    'redirect' => 'http://localhost:5173/oauth-redirect',
+    'redirect' => 'https://localhost/oauth-redirect',
 
     // Path for the SPA to send a POST request with the server's data.
-    'redirected' => '/oauth-redirected'
+    'redirected' => '/oauth/redirected'
 ];
