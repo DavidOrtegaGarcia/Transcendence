@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
+            $table->timestamps();
             $table->string('name');
             $table->string('back_image');
             $table->string('front_image');
