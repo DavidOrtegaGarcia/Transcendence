@@ -19,9 +19,9 @@ return [
         GameMode::CAMPAIGN_2->value => 100,
         GameMode::CAMPAIGN_3->value => 150,
         GameMode::PVE->value => 150,
-        GameMode::PVP_CASUAL_UNLIMITED => 175,
-        GameMode::PVP_CASUAL_LIMITED => 300,
-        GameMode::PVP_RANKED => 500,
+        GameMode::PVP_CASUAL_UNLIMITED->value => 175,
+        GameMode::PVP_CASUAL_LIMITED->value => 300,
+        GameMode::PVP_RANKED->value => 500,
     ],
 
     'experience_loss' => [
@@ -29,8 +29,8 @@ return [
         GameMode::CAMPAIGN_2->value => 0,
         GameMode::CAMPAIGN_3->value => 0,
         GameMode::PVE->value => 70,
-        GameMode::PVP_CASUAL_UNLIMITED => 80,
-        GameMode::PVP_CASUAL_LIMITED => 90,
-        GameMode::PVP_RANKED => 100,
+        GameMode::PVP_CASUAL_UNLIMITED->value => 80,
+        GameMode::PVP_CASUAL_LIMITED->value => 90,
+        GameMode::PVP_RANKED->value => 100,
     ],
 ];
