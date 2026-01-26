@@ -18,12 +18,9 @@ class Game extends Model
     protected $table = "games";
     
     protected $fillable = [
-        'game_mode',
-        'board',
-        'team_a_id',
-        'team_b_id',
-        'team_next_id',
-        'team_winner_id'
+        'type',
+        'board_state',
+        'parameters'
     ];
 
     protected $hidden = [
@@ -32,8 +29,9 @@ class Game extends Model
     protected function casts(): array
     {
         return [
-            'game_mode' => GameMode::class,
-            'board' => 'array'
+            'type' => GameMode::class,
+            'board_state' => 'array',
+            'parameters' => 'array',
         ];
     }
 

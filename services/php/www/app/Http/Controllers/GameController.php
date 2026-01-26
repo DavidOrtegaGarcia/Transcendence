@@ -7,6 +7,7 @@ use App\Models\Chat;
 use App\Services\ChatService;
 use App\Services\GameService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
     // {
     //     mode: ["1V1", "2V2"],
@@ -44,36 +45,13 @@ class GameController
 {
     public function createGame(Request $request, GameService $service)
     {
-        // $request->validate([
-        //     ''
-        // ]);
-        
-        $game = null;
-        $team_a = null;
-        $team_b = null;
-        $user_aa = null;
-        $user_bb = null;
-        $user_ba = null;
-        $user_ab = null;
-        $service->parseTeams($request->input('teams'), $team_a, $team_b);
-        
-        switch($request->enum('mode', GameMode::class))
-        {
-            case GameMode::ONEVONE: 
-                $service->parseOnevoneMembers($team_a, $user_aa); 
-                $service->parseOnevoneMembers($team_b, $user_ba); 
-                break ;
-            case GameMode::TWOVTWO: 
-                $service->parseTwovtwoMembers($team_a, $user_aa, $user_ab); 
-                $service->parseTwovtwoMembers($team_b, $user_ba, $user_bb); 
-                break ;
-        }
+        $request->validate([
+            'mode' => ['required', Rule::enum(GameMode::class)],
+        ]);
 
-        switch($request->enum('mode', GameMode::class))
-        {
-            case GameMode::ONEVONE: $game = $service->createOnevoneGame($user_aa, $user_ba); break ;
-            case GameMode::TWOVTWO: $game = $service->createTwovtwogame($user_aa, $user_ab, $user_ba, $user_bb); break ;
-        }
+        $gamemode = GameMode::from($request->input('mode'));
+
+        $game = $service->createGame($gamemode);
 
         return response()->json($game->toResource(), 201);
     }
