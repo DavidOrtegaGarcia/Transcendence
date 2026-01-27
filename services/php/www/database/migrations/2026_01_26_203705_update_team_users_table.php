@@ -11,8 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('teams', function (Blueprint $table) {
-            $table->foreignId('player_next_id')->nullable()->constrained('team_user')->cascadeOnDelete();
+        Schema::table('team_user', function (Blueprint $table) {
+            $table->unique(['team_id', 'user_id']);
+            $table->unique(['team_id', 'order']);
         });
     }
 
@@ -21,10 +22,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-
-
-        Schema::table('teams', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('player_next_id');
+        Schema::table('team_user', function (Blueprint $table) {
+            $table->dropUnique(['team_id', 'user_id']);
+            $table->dropUnique(['team_id', 'order']);
         });
     }
 };

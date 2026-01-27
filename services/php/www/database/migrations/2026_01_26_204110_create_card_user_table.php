@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('team_user', function (Blueprint $table) {
+        Schema::create('card_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->integer('order');
-            $table->foreignId('user_id')->nullable()->constrained('users')->cascadeOnDelete();
-            $table->foreignId('team_id')->constrained('teams')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('card_id')->constrained()->cascadeOnDelete();
+            $table->unique(['user_id', 'card_id']);
         });
     }
 
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('team_user');
+        Schema::dropIfExists('card_user');
     }
 };

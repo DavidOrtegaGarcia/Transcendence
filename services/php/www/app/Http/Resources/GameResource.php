@@ -16,10 +16,9 @@ class GameResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id' => $this->id,
-            'mode' => $this->game_mode->value,
-            'teams' => $this->teams->toResourceCollection(),
-            'next_team' => Team::find($this->team_next_id)->id,
+            'match_id' => $this->id,
+//            'teams' => $this->teams->toResourceCollection(),
+            'config' => $this->parameters,
         ];
     }
 }

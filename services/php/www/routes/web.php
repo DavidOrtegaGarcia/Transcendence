@@ -83,23 +83,23 @@ Route::get(config('oauth.uri_generation'), [OAuthController::class, 'getRedirect
 
 Route::post(config('oauth.redirected').'/{provider}', [OAuthController::class, 'handleOAuthResponse']);
 
-Route::get('reverb-ping-private', function () {
-\Log::info('Auth attempt', [
-    'user_id' => $user->id ?? 'Guest',
-    'is_logged_in' => \Auth::check()
-]);
+Route::get('/v1/reverb-ping-private', function () {
+    \Log::info('Auth attempt', [
+        'user_id' => $user->id ?? 'Guest',
+        'is_logged_in' => \Auth::check()
+    ]);
 
     Ping::dispatch("private");
     return response()->json(['ok'], 200);
 
 });
 
-Route::get('reverb-ping-presence', function () {
+Route::get('/v1/reverb-ping-presence', function () {
     Ping::dispatch("presence");
     return response()->json(['ok'], 200);
 });
 
-Route::get('reverb-ping-public', function () {
+Route::get('/v1/reverb-ping-public', function () {
     Ping::dispatch("public");
     return response()->json(['ok', 'id' => Auth::id()], 200);
 });
