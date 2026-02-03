@@ -25,6 +25,8 @@ services:
         condition: service_healthy
       frontend:
         condition: service_healthy
+      game:
+        condition: service_healthy
     restart: always
 
 # Frontend (React)
@@ -45,7 +47,7 @@ services:
     networks:
       - transcendence
     healthcheck:
-      test: ["CMD-SHELL", "curl -f http://localhost:5173/ || exit 1"]
+      test: ["CMD-SHELL", "curl -f http://localhost:5173 || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 3
@@ -77,6 +79,23 @@ services:
         condition: service_healthy
     restart: always
   
+# Game (Nginx)
+  game:
+    build: ./services/game
+    image: game
+    container_name: game
+    volumes:
+    - ${PWD}/services/game/conf:/etc/nginx/conf.d 
+    networks:
+      - transcendence
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: always
+
 # Websocket (Reverb)
   reverb:
     build: ./services/php
