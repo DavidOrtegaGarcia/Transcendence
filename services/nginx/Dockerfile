@@ -7,7 +7,7 @@ COPY ./conf/default.conf /etc/nginx/conf.d/default.conf
 COPY ./tools/get_certificate.sh /usr/local/bin/get_certificate.sh
 RUN chmod +x /usr/local/bin/get_certificate.sh
 
-EXPOSE 443
+EXPOSE 7999
 
 # Run time 
 ENTRYPOINT ["/usr/local/bin/get_certificate.sh"]

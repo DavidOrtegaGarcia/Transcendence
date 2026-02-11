@@ -1,59 +1,61 @@
-import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-// Usamos las librerías base que ya instalaste
-import Echo from 'laravel-echo';
-import Pusher from 'pusher-js';
-
-// Necesario para que Echo funcione
-window.Pusher = Pusher;
-
-// Configuramos Echo manualmente
-const echo = new Echo({
-  broadcaster: 'reverb',
-  key: import.meta.env.VITE_REVERB_APP_KEY,
-  wsHost: window.location.hostname, // localhost
-  wsPort: 443,
-  wssPort: 443,
-  forceTLS: true,
-  enabledTransports: ['ws', 'wss'],
-});
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Landing from './pages/Landing';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Index from './pages/Index';
+import AuthProvider from './context/AuthContext';
+import ProtectedRoute from './components/ProtectedRoute';
+import ResetPassword from './pages/ResetPassword';
+import Friends from './pages/Friends';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
+import Ranking from './pages/Ranking';
 
 function App() {
-  const [count, setCount] = useState(0)
+	return (
+		<AuthProvider>
+			<Router>
+				<Routes>
+					{/* ------ PUBLIC ROUTES ------ */}
+					{/* Main Route to show Landing Page */}
+					<Route path="/" element={<Landing />} />
 
-  useEffect(() => {
-    console.log("Iniciando escucha de eventos en 'test-channel'...");
+					{/* Route to Login */}
+					<Route path="/login" element={<Login />} />
 
-    // Suscribirse al canal y escuchar el evento
-    const channel = echo.channel('test-channel')
-      .listen('.TestEvent', (data: any) => {
-        console.log('¡EVENTO RECIBIDO!', data);
-        alert('Mensaje de Laravel: ' + data.message);
-      });
+					{/* Route to Register */}
+					<Route path="/register" element={<Register />} />
 
-    // Limpiar la conexión al cerrar el componente
-    return () => {
-      echo.leaveChannel('test-channel');
-    };
-  }, []);
+					{/* Route to Password Reset */}
+					<Route path="/reset_password" element={<ResetPassword />} />
 
-  return (
-    <>
-      <div>
-        <img src={viteLogo} className="logo" alt="Vite logo" />
-        <img src={reactLogo} className="logo react" alt="React logo" />
-      </div>
-      <h1>Conexión Directa OK</h1>
-      <div className="card">
-        <p>📡 Estado: Conectado a Reverb (101)</p>
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-      </div>
-    </>
-  )
+					{/* Route to Privacy Policy */}
+					<Route path="/privacy_policy" element={<Privacy />} />
+
+					{/* Route to Terms of Service */}
+					<Route path="/terms_of_service" element={<Terms />} />
+
+
+					{/* ------ PRIVATE ROUTES ------ */}
+					<Route element={<ProtectedRoute />}>
+                        <Route path="/index" element={<Index />} />
+						<Route path="/friends" element={<Friends />} />
+						{/*Route to profile without parameters */}
+    					<Route path="/profile" element={<Profile />} />
+    
+						{/* Route to view OTHERS (the :username is the variable) */}
+						<Route path="/profile/:username" element={<Profile />} />
+						<Route path="/edit_profile" element={<EditProfile />} />
+						<Route path="/ranking" element={<Ranking />} />
+                        {/* Aquí irán /game, /chat, etc. */}
+                    </Route>
+
+				</Routes>
+			</Router>
+		</AuthProvider>
+	)
 }
 
 export default App;
