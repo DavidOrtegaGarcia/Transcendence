@@ -18,6 +18,7 @@
     "required": "Aquest camp és obligatori.",
     "email_required": "El correu electrònic és obligatori.",
     "email_invalid": "Adreça de correu electrònic no vàlida.",
+	"email_registered": "El correu electrònic ja està registrat a la nostra base de dades.",
     "email_not_registered": "El correu electrònic no està registrat a la nostra base de dades.",
     "username_required": "El nom d'usuari és obligatori.",
     "username_short": "El nom d'usuari ha de tenir almenys 3 caràcters.",
@@ -61,7 +62,7 @@
     "enter": "Crear compte",
     "account": "Tens un compte?",
     "success": "Registre exitós!",
-    "back_login": "Redirigint a Iniciar sessió..."
+    "redirecting": "Redirigint ..."
   },
   "password": {
     "title": "Restablir contrasenya",
@@ -69,6 +70,9 @@
     "enter": "Canviar contrasenya",
     "success": "Contrasenya canviada per a:",
     "email_registered": "El correu electrònic està a la base de dades.",
+	"link_sent": "Enllaç enviat!",
+	"instructions_sent": "Hem enviat instruccions a",
+	"check_inbox": "Revisa la teva safata d'entrada o la carpeta de correu brossa.",
 	"processing": "Processant...",
     "back_login": "Redirigint a Iniciar sessió..."
   },

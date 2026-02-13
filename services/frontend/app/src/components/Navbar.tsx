@@ -13,7 +13,7 @@ const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
 	const url = useLocation();
 
-	// Hooks para redirección y contexto
+	/* Hooks to redirect and context */
     const navigate = useNavigate(); 
     const { logout } = useAuth();
 
@@ -24,14 +24,14 @@ const Navbar = () => {
 		url.pathname === path ? "nav-item-mobile-active" : "nav-item-mobile";
 
 	const handleLogout = async (closeMenu: boolean) => {
+		/* Close menu if is mobile */
+		if (closeMenu) setIsMenuOpen(false);
+
 		/* Redirect to home (landing page)*/
 		navigate('/');
 		
-		/* Close menu if is mobile */
-		if (closeMenu) setIsMenuOpen(false);
-		
 		/* Wait for response from backend to complete logout cleaning session and changing state  */
-		await logout();
+		await logout();		
 	}
 
 	return (

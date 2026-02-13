@@ -3,7 +3,7 @@ import axios from 'axios';
 /* To create instance with URL base from .env */ 
 const api = axios.create({
 	/* Base URL from environment variable or default to localhost */
-    baseURL: import.meta.env.VITE_API_URL || 'http://localhost:8080',
+    baseURL: import.meta.env.VITE_API_URL,
 	/* Accept send/recieve cookies */
     withCredentials: true,
     headers: {

@@ -38,7 +38,7 @@ const Landing = () => {
                     </p>
 
                     {/* Botón CTA */}
-                    <Link to="/login" className="group relative inline-block">
+                    <Link to="/signin" className="group relative inline-block">
                         <div className="absolute -inset-1 bg-brand-500 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-200"></div>
                         <button className="relative w-full md:w-auto px-10 py-3.5 bg-brand-500 hover:bg-brand-600 text-white font-bold text-lg rounded-full transition-all transform hover:scale-105 shadow-xl">
                             {t('landing.start')}

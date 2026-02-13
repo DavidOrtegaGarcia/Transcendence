@@ -23,10 +23,10 @@ function App() {
 					<Route path="/" element={<Landing />} />
 
 					{/* Route to Login */}
-					<Route path="/login" element={<Login />} />
+					<Route path="/signin" element={<Login />} />
 
 					{/* Route to Register */}
-					<Route path="/register" element={<Register />} />
+					<Route path="/signup" element={<Register />} />
 
 					{/* Route to Password Reset */}
 					<Route path="/reset_password" element={<ResetPassword />} />

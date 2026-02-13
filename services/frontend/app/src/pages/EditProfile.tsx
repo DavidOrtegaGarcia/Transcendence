@@ -20,11 +20,11 @@ const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 // Catálogo de Avatares Predefinidos (Puedes usar imágenes locales en /public/assets/avatars/...)
 const AVATAR_PRESETS = [
-	"/assets/avatars/dragon.png",
-	"/assets/avatars/rogue.png",
-	"/assets/avatars/queen.png",
-	"/assets/avatars/sorceress.png",
-	"/assets/avatars/warrior.png",
+	"../assets/avatars/dragon.png",
+	"../assets/avatars/rogue.png",
+	"../assets/avatars/queen.png",
+	"../assets/avatars/sorceress.png",
+	"./assets/avatars/warrior.png",
 	"/assets/avatars/wizard.png"
 ];
 
