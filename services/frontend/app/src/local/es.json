@@ -18,6 +18,7 @@
     "required": "Este campo es obligatorio.",
     "email_required": "El correo electrónico es obligatorio.",
     "email_invalid": "Dirección de correo electrónico no válida.",
+	"email_registered": "El correo electrónico ya está registrado en nuestra base de datos.",
     "email_not_registered": "El correo electrónico no está registrado en nuestra base de datos.",
     "username_required": "El nombre de usuario es obligatorio.",
     "username_short": "El nombre de usuario debe tener al menos 3 caracteres.",
@@ -61,7 +62,7 @@
     "enter": "Crear cuenta",
     "account": "¿Tienes una cuenta?",
     "success": "¡Registro exitoso!",
-    "back_login": "Redirigiendo a Iniciar sesión..."
+    "redirecting": "Redirigiendo ..."
   },
   "password": {
     "title": "Restablecer contraseña",
@@ -69,6 +70,9 @@
     "enter": "Cambiar contraseña",
     "success": "Contraseña cambiada para:",
     "email_registered": "El correo electrónico está en la base de datos.",
+	"link_sent": "¡Enlace enviado!",
+	"instructions_sent": "Hemos enviado instrucciones a",
+	"check_inbox": "Revisa tu bandeja de entrada o spam.",
 	"processing": "Procesando...",
     "back_login": "Redirigiendo a Iniciar sesión..."
   },

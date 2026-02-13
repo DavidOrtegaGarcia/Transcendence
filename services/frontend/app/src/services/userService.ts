@@ -15,7 +15,7 @@ export interface UpdateProfilePayload {
 const userService = {
     // Ejemplo de método real
     getProfile: async (): Promise<User> => {
-        const response = await api.get('/api/user');
+        const response = await api.get('/user');
         return response.data;
     },
     

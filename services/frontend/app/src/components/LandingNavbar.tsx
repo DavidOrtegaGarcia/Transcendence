@@ -24,9 +24,9 @@ const LandingNavbar = () => {
                     <div className="h-4 w-px bg-slate-700"></div>
                     <Link to="/" className="nav-link-desktop-active">{t('common.home')}</Link>
                     <span className="text-slate-600">|</span>
-                    <Link to="/login" className="nav-link-desktop">{t('common.login')}</Link>
+                    <Link to="/signin" className="nav-link-desktop">{t('common.login')}</Link>
                     <span className="text-slate-600">|</span>
-                    <Link to="/register" className="nav-link-desktop">{t('common.register')}</Link>
+                    <Link to="/signup" className="nav-link-desktop">{t('common.register')}</Link>
                 </div>
 
                 <button className="lg:hidden text-slate-300 hover:text-white p-2" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -37,8 +37,8 @@ const LandingNavbar = () => {
             {isMenuOpen && (
                 <div className="lg:hidden absolute top-24 left-0 w-full bg-dark-900 border-b border-white/10 p-4 flex flex-col gap-2 shadow-2xl animate-fade-in-down">
                     <Link to="/" className="nav-item-mobile-active" onClick={() => setIsMenuOpen(false)}>{t('common.home')}</Link>
-                    <Link to="/login" className="nav-item-mobile" onClick={() => setIsMenuOpen(false)}>{t('common.login')}</Link>
-                    <Link to="/register" className="nav-item-mobile" onClick={() => setIsMenuOpen(false)}>{t('common.register')}</Link>
+                    <Link to="/signin" className="nav-item-mobile" onClick={() => setIsMenuOpen(false)}>{t('common.login')}</Link>
+                    <Link to="/signup" className="nav-item-mobile" onClick={() => setIsMenuOpen(false)}>{t('common.register')}</Link>
 
                     <div className="border-t border-white/10 pt-4 mt-2 flex justify-center">
                         <LanguageSelector />

@@ -1,8 +1,8 @@
 {
   "common": {
     "home": "Home",
-    "login": "Login",
-    "register": "Register",
+    "login": "Sign In",
+    "register": "Sign Up",
     "logout": "Logout",
     "username": "Username",
     "email": "E-mail",
@@ -19,6 +19,7 @@
     "required": "This field is required.",
     "email_required": "Email is required.",
     "email_invalid": "Invalid email address.",
+	"email_registered": "The email is already registered in our database.",
     "email_not_registered": "The email is not registered in our database.",
     "username_required": "Username is required.",
     "username_short": "Username must be at least 3 characters long.",
@@ -51,7 +52,7 @@
     "terms": "Terms of Service"
   },
   "login": {
-    "title": "Login",
+    "title": "Sign In",
     "subtitle": "Welcome to Nexus Nine",
     "enter": "Sign In",
     "forgot_pass": "Forgot your password?",
@@ -60,10 +61,10 @@
   "register": {
     "title": "Create account",
     "subtitle": "Join Nexus Nine",
-    "enter": "Create Account",
+    "enter": "Sign Up",
     "account": "Have an account?",
     "success": "Registration successful!",
-    "back_login": "Redirecting to Login..."
+    "redirecting": "Redirecting ..."
   },
   "password": {
     "title": "Reset Password",
@@ -71,6 +72,9 @@
     "enter": "Change Password",
     "success": "Password changed for:",
     "email_registered": "The email is in the database.",
+	"link_sent": "Link sent!",
+	"instructions_sent": "We have sent instructions to",
+	"check_inbox": "Check your inbox or spam folder.",
 	"processing": "Processing...",
     "back_login": "Redirecting to Login..."
   },

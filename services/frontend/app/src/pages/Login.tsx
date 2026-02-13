@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../context/AuthContext";
@@ -9,8 +9,15 @@ import axios from "axios";
 
 const Login = () => {
     const { t } = useTranslation();
-    const { login } = useAuth();
+    const { login, isAuthenticated } = useAuth();
     const navigate = useNavigate();
+
+	/* If user is already authenticated, redirect to /index */
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/index');
+        }
+    }, [isAuthenticated, navigate]);
 
     /* Inputs States */
     const [formData, setFormData] = useState({ email: "", password: "" });
@@ -54,7 +61,7 @@ const Login = () => {
         
         try {
             // Real login calling to context. This function now returns a promise, so we await it to catch errors properly.
-            await login( cleanData); 
+            await login( cleanData ); 
             navigate("/index"); // If no error is thrown, redirect
         } catch (error) {
         // IMPROVED ERROR HANDLING
@@ -110,7 +117,7 @@ const Login = () => {
 
                 {/* Arreglado: Se usa la clase definida en CSS */}
                 <button type="submit" className="btn-primary-full">
-                    {t("common.enter")}
+                    {t("login.enter")}
                 </button>
             </form>
 
@@ -122,7 +129,7 @@ const Login = () => {
                 </p>
                 <p className="text-slate-400 text-sm">
                     {t("login.no_account")}{' '}
-                    <Link to='/register' className="text-brand-500 font-bold hover:underline transition-colors">
+                    <Link to='/signup' className="text-brand-500 font-bold hover:underline transition-colors">
                         {t("common.register")}
                     </Link>
                 </p>

@@ -6,15 +6,16 @@ export interface LoginCredentials {
 
 /* Register Credentials for registering */
 export interface RegisterCredentials {
-    username: string;
+    name: string;
     email: string;
     password: string;
+	password_confirmation: string;
 }
 
 /* User information for logged in user */
 export interface User {
     id: string;
-    username: string;
+    name: string;
     email: string;
     avatar?: string;
     // Añadir mas campos cuando sepamos los que necesitamos
@@ -30,6 +31,7 @@ export interface AuthContextType {
     isLoading: boolean; 
 	/* This will be the API call to log in */
     login: (userData: LoginCredentials) => Promise<void>;
+	register: (userData: RegisterCredentials) => Promise<void>;
 	/* This will be the API call to log out */
     logout: () => void;
 }

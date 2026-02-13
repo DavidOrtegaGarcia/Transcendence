@@ -1,15 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import AuthLayout from "../components/layouts/AuthLayout";
 import InputGroup from "../components/ui/InputGroup";
 import AlertSuccess from "../components/ui/AlertSuccess";
 import { validateEmail, validatePassword, validateUsername } from "../utils/validators";
+import { useAuth } from "../context/AuthContext";
+import axios from "axios";
 
 const Register = () => {
     const { t } = useTranslation();
     const navigate = useNavigate();
     const [isRegistered, setIsRegistered] = useState(false);
+	const { register, isAuthenticated } = useAuth();
+
+	/* Redirect to /index if user is authenticated */
+	useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/index');
+        }
+    }, [isAuthenticated, navigate]);
 
     /* Inputs States */
     const [formData, setFormData] = useState({ username: "", email: "", password: "" });
@@ -41,18 +51,51 @@ const Register = () => {
     };
 
     /* Handle Form Submit */
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => { // Hazlo ASYNC
         e.preventDefault();
+        
         const cleanData = {
             username: formData.username.trim(),
+			name: formData.username.trim(),
             email: formData.email.trim(),
-            password: formData.password
+            password: formData.password,
+			password_confirmation: formData.password
         };
 
         if (validate(cleanData)) {
-            setIsRegistered(true);
-            console.log(t("register.success"), cleanData);
-            setTimeout(() => navigate('/login'), 3000);
+            try {
+				console.log(cleanData);
+                // LLAMADA REAL AL BACKEND
+                await register(cleanData);
+                
+                setIsRegistered(true);
+                // Si el backend loguea automáticamente, podrías redirigir a /index directamente
+                // Pero si prefieres mostrar el mensaje de éxito y luego ir al login:
+                setTimeout(() => navigate('/index'), 3000); 
+                
+            } catch (error: any) {
+                // MANEJO DE ERRORES DEL BACKEND (Ej: Email ya existe)
+                console.error("Fallo el registro", error);
+                
+				if (error.response?.status === 404)
+				{
+					console.log("Puto 404");
+				}
+
+                if (error.response?.status === 422) {
+                    // Errores de validación de Laravel (ej: email duplicado)
+                    const serverErrors = error.response.data.errors;
+                    if (serverErrors.email) {
+                        setErrors(prev => ({ ...prev, email: t("validation.email_registered") }));
+                    }
+                    if (serverErrors.username) {
+                        setErrors(prev => ({ ...prev, username: "Username already taken" }));
+                    }
+                } else {
+                    // Error genérico
+                    alert("Error en el registro. Inténtalo de nuevo.");
+                }
+            }
         }
     }
 
@@ -60,7 +103,7 @@ const Register = () => {
         <AuthLayout title={t('register.title')} subtitle={t('register.subtitle')}>
             
             {isRegistered ? (
-                <AlertSuccess title={t("register.success")} message={t("register.back_login")} />
+                <AlertSuccess title={t("register.success")} message={t("register.redirecting")} />
             ) : (
                 <form className="space-y-4" noValidate onSubmit={handleSubmit}>
                     <InputGroup label={t('common.username')} type="text" name="username" placeholder="player1" value={formData.username} onChange={handleChange} error={errors.username} />
@@ -75,7 +118,7 @@ const Register = () => {
                     <div className="mt-6 text-center">
                         <p className="text-slate-400 text-sm">
                             {t('register.account')}{' '}
-                            <Link to="/login" className="text-brand-500 font-bold hover:underline transition-colors">
+                            <Link to="/signin" className="text-brand-500 font-bold hover:underline transition-colors">
                                 {t('common.login')}
                             </Link>
                         </p>
