@@ -18,7 +18,7 @@ const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'
 // Tamaño máximo (5MB)
 const MAX_FILE_SIZE = 5 * 1024 * 1024; 
 
-// Catálogo de Avatares Predefinidos (Puedes usar imágenes locales en /public/assets/avatars/...)
+// Catálogo de Avatares Predefinidos
 const AVATAR_PRESETS = [
 	"../assets/avatars/dragon.png",
 	"../assets/avatars/rogue.png",

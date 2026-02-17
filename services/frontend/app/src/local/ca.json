@@ -255,5 +255,10 @@
     "9text": "Aquest projecte es regeix per principis generals i no està subjecte a un marc legal comercial específic, en tractar-se d’un projecte acadèmic.",
     "10": "Contacte",
     "10text": "Per a qualsevol dubte relacionat amb aquests Termes de Servei, pots contactar amb l’equip desenvolupador a través del repositori del projecte."
+  },
+  "error": {
+	"title": "Error",
+	"subtitle": "Pàgina no trobada. La pàgina que estàs buscant no existeix o ha ocorregut un error inesperat.",
+	"back": "Tornar"
   }
 }

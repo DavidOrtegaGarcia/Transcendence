@@ -255,5 +255,10 @@
     "9text": "Este proyecto se rige por principios generales y no está sujeto a un marco legal comercial específico, ya que es un proyecto académico.",
     "10": "Contacto",
     "10text": "Para cualquier pregunta relacionada con estos Términos de Servicio, puedes contactar al equipo de desarrollo a través del repositorio del proyecto."
+  },
+  "error": {
+	"title": "Error",
+	"subtitle": "Página no encontrada. La página que estás buscando no existe o ha ocurrido un error inesperado.",
+	"back": "Volver"
   }
 }

@@ -257,5 +257,10 @@
     "9text": "This project is governed by general principles and is not subject to a specific commercial legal framework, as it is an academic project.",
     "10": "Contact",
     "10text": "For any questions related to these Terms of Service, you can contact the development team through the project repository."
+  }, 
+  "error": {
+	"title": "Error",
+	"subtitle": "Page not found. The page you are looking for does not exist or an unexpected error occurred.",
+	"back": "Go Back"
   }
 }
