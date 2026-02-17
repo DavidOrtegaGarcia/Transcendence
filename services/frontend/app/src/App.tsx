@@ -12,6 +12,7 @@ import Friends from './pages/Friends';
 import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Ranking from './pages/Ranking';
+import Error from './pages/Error';
 
 function App() {
 	return (
@@ -37,6 +38,11 @@ function App() {
 					{/* Route to Terms of Service */}
 					<Route path="/terms_of_service" element={<Terms />} />
 
+					{/* ------ ERROR ROUTES ------ */}
+                    
+                    {/* Specific route from backend */}
+                    <Route path="/error" element={<Error />} />
+
 
 					{/* ------ PRIVATE ROUTES ------ */}
 					<Route element={<ProtectedRoute />}>
@@ -51,6 +57,9 @@ function App() {
 						<Route path="/ranking" element={<Ranking />} />
                         {/* Aquí irán /game, /chat, etc. */}
                     </Route>
+
+					{/* Catch-all route for undefined paths */}
+		            <Route path="*" element={<Error />} />
 
 				</Routes>
 			</Router>

@@ -6,7 +6,6 @@ import InputGroup from "../components/ui/InputGroup";
 import AlertSuccess from "../components/ui/AlertSuccess";
 import { validateEmail, validatePassword, validateUsername } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
-import axios from "axios";
 
 const Register = () => {
     const { t } = useTranslation();
