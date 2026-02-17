@@ -1,5 +1,5 @@
 import { useState, useEffect, type ChangeEvent, type FormEvent } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { FaUser, FaCamera, FaLock, FaKey, FaGlobe, FaExclamationCircle } from 'react-icons/fa';
 import { MdEmail, MdEdit, MdDescription } from "react-icons/md";
@@ -9,14 +9,12 @@ import LoadingState from '../components/ui/LoadingState';
 import ConfirmModal from '../components/ConfirmModal';
 import type { UserProfile } from '../models/User';
 import { validatePassword } from '../utils/validators';
-//import api from '../services/api';
 import userService from '../services/userService';
 import { changeLanguage } from 'i18next';
+import { useAuth } from '../context/AuthContext'; 
 
-// Tipos MIME permitidos
 const ALLOWED_FILE_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
-// Tamaño máximo (5MB)
-const MAX_FILE_SIZE = 5 * 1024 * 1024; 
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 // Catálogo de Avatares Predefinidos
 const AVATAR_PRESETS = [
@@ -28,7 +26,7 @@ const AVATAR_PRESETS = [
 	"/assets/avatars/wizard.png"
 ];
 
-type ProfileFormState = Pick<UserProfile, 'username' | 'email' | 'bio' | 'language' | 'avatar'> & {
+type ProfileFormState = Pick<UserProfile, 'name' | 'email' | 'bio' | 'language' | 'avatar'> & {
     avatarFile?: File;
     newPassword: string;
     confirmPassword: string;
@@ -37,6 +35,12 @@ type ProfileFormState = Pick<UserProfile, 'username' | 'email' | 'bio' | 'langua
 const EditProfile = () => {
     const { t, i18n } = useTranslation(); 
     const navigate = useNavigate();
+
+	/* Get authenticated user and loaging state from AuthContext */
+	const { name } = useParams<{ name?: string }>();
+    const { user: authUser, isLoading: isAuthLoading } = useAuth();
+
+	const isOwnProfile = !name || (authUser && name.toLowerCase() === authUser?.name?.toLowerCase());
 
     const [isLoading, setIsLoading] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -60,42 +64,57 @@ const EditProfile = () => {
 
 	const iconSize = 20;
 
-    /* 1. Fetch Data */
+    /* Check is not real user profile redirect to own profile */
+	useEffect(() => {
+        if (!isAuthLoading && !isOwnProfile) {
+            navigate('/profile');
+        }
+    }, [isOwnProfile, isAuthLoading, navigate]);
+
+	/* Fetch user data */
     useEffect(() => {
+		/* Only make fetch if the profile is own and is authenticated */
+		if (!isOwnProfile || !authUser)
+			return;
+
+		/* Fetch info from database */
         const fetchUserData = async () => {
             setIsLoading(true);
-            await new Promise(resolve => setTimeout(resolve, 500));
 
-            const storedLang = localStorage.getItem('lang') as 'en' | 'es' | 'ca';
-            const currentLang = storedLang || (i18n.language as 'en' | 'es' | 'ca') || 'en';
+			try {
+                // 1. Llamada real a tu API. 
+                // Ajusta 'userService.getProfile()' al nombre real de la función que tengas en tu servicio
+                const userData = await userService.getProfile(authUser.name);
+                
+                // 2. Gestión del idioma
+                const storedLang = localStorage.getItem('lang') as 'en' | 'es' | 'ca';
+                // Prioridad: 1. Lo que viene de BBDD, 2. LocalStorage, 3. Idioma actual del navegador, 4. Inglés
+                const currentLang = userData.language || storedLang || (i18n.language as 'en' | 'es' | 'ca') || 'en';
 
-            const mockData: UserProfile = {
-                id: 1,
-                username: "Miriam",
-                email: "miriam@student.42.fr",
-                avatar: "", 
-                bio: "",
-                status: 'online',
-                language: currentLang, 
-                stats: { wins: 0, losses: 0, gamesPlayed: 0, winRate: 0 },
-                history: []
-            };
+                // 3. Seteamos los datos reales en el formulario
+                setFormData({
+                    name: userData.name || "",
+                    email: userData.email || "",
+                    avatar: userData.avatar || "",
+                    bio: userData.bio || "",
+                    language: currentLang,
+                    newPassword: "",
+                    confirmPassword: ""
+                });
+                
+                // 4. Actualizamos i18n si el idioma de la BBDD es distinto al actual
+                if (currentLang && i18n.language !== currentLang) {
+                    i18n.changeLanguage(currentLang);
+                }
 
-            setFormData({
-                username: mockData.username,
-                email: mockData.email || "",
-                avatar: mockData.avatar || "",
-                bio: mockData.bio || "",
-                language: mockData.language || "en",
-                newPassword: "",
-                confirmPassword: ""
-            });
-            
-            if (mockData.language && i18n.language !== mockData.language) {
-                i18n.changeLanguage(mockData.language);
+            } catch (error) {
+                console.error("Error al obtener los datos del perfil:", error);
+                // Opcional: Aquí podrías añadir una notificación de error (toast) 
+                // para avisar al usuario de que no se pudo cargar su perfil.
+            } finally {
+                // El finally asegura que el loading spinner desaparezca tanto si hay éxito como si hay error
+                setIsLoading(false);
             }
-
-            setIsLoading(false);
         };
 
         fetchUserData();
@@ -172,51 +191,30 @@ const EditProfile = () => {
 
         setIsSaving(true);
         
-        // --- LÓGICA DE ENVÍO AL BACKEND (Simulada) ---
-        console.log("Enviando datos...", formData);
-        // NOTA: Si formData.avatarFile existe, enviaré un FormData con el archivo.
-        // Si no existe pero formData.avatar tiene valor, enviaré la URL del preset.
-
-		// Simulación de retardo
-        await new Promise(resolve => setTimeout(resolve, 1000));
-
-		/**************************/
-		// Cuando tenga la BBDD guardaré los datos reales
-		// LÓGICA DE BACKEND (Ahora compilará gracias al Mock y al tipado)
         try {
-            // Tipamos explícitamente el payload para que acepte 'avatar' después
-            interface UpdatePayload {
-                username: string;
-                bio?: string;
-                language?: string;
-                password?: string;
-                avatar?: string;
+            const payload: any = {
+                name: formData.name,
+                bio: formData.bio,
+                language: formData.language,
+                // Si escribió una contraseña nueva, la añadimos al paquete
+                ...(formData.newPassword ? { password: formData.newPassword } : {})
+            };
+
+            
+            if (formData.avatar && !formData.avatarFile) {
+                payload.avatar = formData.avatar;
             }
 
-            // const payload: UpdatePayload = {
-            //     username: formData.username,
-            //     bio: formData.bio,
-            //     language: formData.language,
-            //     // Si hay password nueva, la incluyes
-            //     ...(formData.newPassword ? { password: formData.newPassword } : {})
-            // };
-
-            // 2. Gestión de Avatar
-            // if (formData.avatarFile) {
-            //     // Si hay fichero, lo subimos primero (falso upload)
-            //     await userService.uploadAvatar(formData.avatarFile);
-            //     // Nota: Normalmente el upload devuelve la URL, que asignarías a payload.avatar
-            // } 
-            // else if (formData.avatar) {
-            //     // Si es un preset (string), lo metemos al payload
-            //     payload.avatar = formData.avatar;
-            // }
-
-            // // 3. Update final (falso update)
-            // await userService.updateProfile(payload);
+            // 3. Update final (falso update)
+            await userService.updateProfile(payload);
 
 		 	//Mostramos el modal de éxito
-        		setShowSuccessModal(true);
+        	setShowSuccessModal(true);
+
+			if (formData.language && formData.language !== i18n.language) {
+                i18n.changeLanguage(formData.language);
+                localStorage.setItem('lang', formData.language);
+            }
 
         } catch (error) {
             setIsSaving(false);
@@ -228,15 +226,6 @@ const EditProfile = () => {
             // Terminamos el estado de carga pase lo que pase
             setIsSaving(false);
         }
-		/**************************************/
-
-        // if (formData.language && formData.language !== i18n.language) {
-        //     i18n.changeLanguage(formData.language);
-        //     localStorage.setItem('lang', formData.language);
-        // }
-
-        setIsSaving(false);
-        setShowSuccessModal(true);
     };
 
     const handleSuccessClose = () => {
@@ -277,7 +266,7 @@ const EditProfile = () => {
                         <FaUser className="text-brand-500" /> {t('profile.edit_profile')}
                     </h1>
                     <p className="text-slate-400 mt-2 text-sm">
-                        {t('edit_profile.subtitle') || "Personaliza tu identidad y seguridad"}
+                        {t('edit_profile.subtitle')}
                     </p>
                 </div>
 
@@ -341,8 +330,8 @@ const EditProfile = () => {
                         {/* Resto de Inputs (Username, etc) */}
                         <div className="grid gap-6 pt-4 border-t border-white/5">
                             <div className="space-y-2">
-                                <label className="text-sm font-bold text-slate-300 ml-1 flex items-center gap-2"><MdEdit className="text-brand-500" size={iconSize}/> {t('common.username')}</label>
-                                <input type="text" name="username" value={formData.username} onChange={handleInputChange} className="input-nexus w-full" placeholder={t('common.username')} />
+                                <label className="text-sm font-bold text-slate-300 ml-1 flex items-center gap-2"><MdEdit className="text-brand-500" size={iconSize}/> {t('common.name')}</label>
+                                <input type="text" name="name" value={formData.name} onChange={handleInputChange} className="input-nexus w-full" placeholder={t('common.name')} />
                             </div>
 
                             <div className="space-y-2">

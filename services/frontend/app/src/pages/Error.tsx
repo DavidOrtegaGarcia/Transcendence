@@ -28,7 +28,7 @@ const Error = () => {
                 </div>
 
                 {/* Título Glitch / Grande */}
-                <h1 className="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-500 tracking-tighter mb-4">
+                <h1 className="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-linear-to-b from-white to-slate-500 tracking-tighter mb-4">
                     404
                 </h1>
 

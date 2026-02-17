@@ -4,7 +4,7 @@ interface LoadingStateProps {
     message?: string;
 }
 
-const LoadingState = ({ message = "Cargando..." }: LoadingStateProps) => {
+const LoadingState = ({ message = "Loading..." }: LoadingStateProps) => {
     return (
         <div className="flex flex-col items-center justify-center py-20 animate-fade-in">
             <CgSpinner className="w-10 h-10 text-brand-500 animate-spin mb-4" />

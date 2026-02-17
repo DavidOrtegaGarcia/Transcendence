@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import AuthLayout from "../components/layouts/AuthLayout";
 import InputGroup from "../components/ui/InputGroup";
 import AlertSuccess from "../components/ui/AlertSuccess";
-import { validateEmail, validatePassword, validateUsername } from "../utils/validators";
+import { validateEmail, validatePassword, validateName } from "../utils/validators";
 import { useAuth } from "../context/AuthContext";
 
 const Register = () => {
@@ -21,8 +21,8 @@ const Register = () => {
     }, [isAuthenticated, navigate]);
 
     /* Inputs States */
-    const [formData, setFormData] = useState({ username: "", email: "", password: "" });
-    const [errors, setErrors] = useState({ username: "", email: "", password: "" });
+    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
+    const [errors, setErrors] = useState({ name: "", email: "", password: "" });
 
     /* Handle Input Change */
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,19 +34,19 @@ const Register = () => {
     /* Validation Function */
     const validate = (data: typeof formData) => {
         /* Validate each field using utility functions */
-        const usernameError = validateUsername(data.username, t);
+        const nameError = validateName(data.name, t);
         const emailError = validateEmail(data.email, t);
         const passwordError = validatePassword(data.password, t);
 
         const newErrors = {
-            username: usernameError,
+            name: nameError,
             email: emailError,
             password: passwordError
         };
 
         setErrors(newErrors);
 		/* Returns true if all are clean */
-        return (!usernameError && !emailError && !passwordError);
+        return (!nameError && !emailError && !passwordError);
     };
 
     /* Handle Form Submit */
@@ -54,8 +54,7 @@ const Register = () => {
         e.preventDefault();
         
         const cleanData = {
-            username: formData.username.trim(),
-			name: formData.username.trim(),
+			name: formData.name.trim(),
             email: formData.email.trim(),
             password: formData.password,
 			password_confirmation: formData.password
@@ -87,8 +86,8 @@ const Register = () => {
                     if (serverErrors.email) {
                         setErrors(prev => ({ ...prev, email: t("validation.email_registered") }));
                     }
-                    if (serverErrors.username) {
-                        setErrors(prev => ({ ...prev, username: "Username already taken" }));
+                    if (serverErrors.name) {
+                        setErrors(prev => ({ ...prev, name: t("validation.name_taken") }));
                     }
                 } else {
                     // Error genérico
@@ -105,7 +104,7 @@ const Register = () => {
                 <AlertSuccess title={t("register.success")} message={t("register.redirecting")} />
             ) : (
                 <form className="space-y-4" noValidate onSubmit={handleSubmit}>
-                    <InputGroup label={t('common.username')} type="text" name="username" placeholder="player1" value={formData.username} onChange={handleChange} error={errors.username} />
+                    <InputGroup label={t('common.name')} type="text" name="name" placeholder="player1" value={formData.name} onChange={handleChange} error={errors.name} />
                     <InputGroup label={t('common.email')} type="email" name="email" placeholder="email@email.com" value={formData.email} onChange={handleChange} error={errors.email} />
                     <InputGroup label={t('common.password')} type="password" name="password" placeholder="••••••••" value={formData.password} onChange={handleChange} error={errors.password} className="mb-8" />
 

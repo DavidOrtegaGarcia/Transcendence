@@ -27,7 +27,7 @@ const Landing = () => {
                             NEXUS NINE
                         </h1>
                         {/* Changed bg-linear-to-b to bg-gradient-to-b */}
-                        <h2 className="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400">
+                        <h2 className="text-3xl md:text-6xl font-black text-transparent bg-clip-text bg-linear-to-b from-white to-slate-400">
                             CARD GAME
                         </h2>
                     </div>

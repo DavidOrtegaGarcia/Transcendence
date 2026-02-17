@@ -31,11 +31,11 @@ const Friends = () => {
 
             // Datos fake que vendrían de la base de datos
             const mockDatabaseResponse: UserProfile[] = [
-                { id: 1, username: "Miriam", status: "online", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
-                { id: 2, username: "Ivan", status: "playing", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
-                { id: 3, username: "Kevin", status: "online", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
-                { id: 4, username: "David", status: "offline", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
-                { id: 5, username: "Alice_Bot", status: "offline", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } }
+                { id: 1, name: "Miriam", status: "online", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
+                { id: 2, name: "Ivan", status: "playing", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
+                { id: 3, name: "Kevin", status: "online", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
+                { id: 4, name: "David", status: "offline", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } },
+                { id: 5, name: "Alice_Bot", status: "offline", stats: { gamesPlayed:0, wins:0, losses:0, winRate:0 } }
             ];
 
 			/* Simulacion de error al cargar la lista de amigos o sin amigos comentando esta línea */
@@ -68,15 +68,15 @@ const Friends = () => {
 	/* Handlers */
 
 	/* Invite to play*/ 
-    const handleInvite = (username: string) => {
-        console.log(`Invitando a ${username}...`);
+    const handleInvite = (name: string) => {
+        console.log(`Invitando a ${name}...`);
         navigate(`/game/`);
     };
 
 	/* Show Profile*/
-	const handleShowProfile = (username: string) => {
-		console.log(`Mostrando perfil de ${username}...`);
-        navigate(`/profile/${username}`);
+	const handleShowProfile = (name: string) => {
+		console.log(`Mostrando perfil de ${name}...`);
+        navigate(`/profile/${name}`);
 	}
 
 	/* Remove Friend */
@@ -136,12 +136,12 @@ const Friends = () => {
                             friendsList.map((friend) => (
                                 <FriendCard
                                     key={friend.id}
-                                    username={friend.username}
+                                    name={friend.name}
                                     variant={friend.status}
                                     icon={<FaCircle />}
                                     avatar={friend.avatar}
-                                    onInviteClick={() => handleInvite(friend.username)}
-                                    onProfileClick={() => handleShowProfile(friend.username)}
+                                    onInviteClick={() => handleInvite(friend.name)}
+                                    onProfileClick={() => handleShowProfile(friend.name)}
                                     onRemoveClick={() => confirmRemove(friend.id)}
                                 />
                             ))

@@ -1,5 +1,3 @@
-// src/utils/validators.ts
-
 /* Regex patterns */
 export const EMAIL_REGEX = /\S+@\S+\.\S+/;
 export const PASSWORD_NUMBER_REGEX = /\d/; 
@@ -10,7 +8,7 @@ export const PASSWORD_UPPERCASE_REGEX = /[A-Z]/;
 export interface ValidationError {
     email?: string;
     password?: string;
-    username?: string;
+    name?: string;
     confirm_password?: string;
 }
 
@@ -31,13 +29,13 @@ export const validatePassword = (password: string, t: any): string => {
     return "";
 };
 
-/* Validate username */
-export const validateUsername = (username: string, t: any): string => {
-    if (!username) return t("validation.username_required");
-    if (username.length < 3) return t("validation.username_short");
-    if (/\s/.test(username)) return t("validation.username_spaces");
-    if (!/^[a-zA-Z0-9_]+$/.test(username)) return t("validation.username_invalid");
-    if (username.length > 14) return t("validation.username_long");
-    if (username.toLowerCase() === "admin") return t("validation.username_reserved");
+/* Validate Name */
+export const validateName = (name: string, t: any): string => {
+    if (!name) return t("validation.name_required");
+    if (name.length < 3) return t("validation.name_short");
+    if (/\s/.test(name)) return t("validation.name_spaces");
+    if (!/^[a-zA-Z0-9_]+$/.test(name)) return t("validation.name_invalid");
+    if (name.length > 14) return t("validation.name_long");
+    if (name.toLowerCase() === "admin") return t("validation.name_reserved");
     return "";
 };
