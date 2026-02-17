@@ -4,7 +4,7 @@
     "login": "Iniciar sesión",
     "register": "Registrarse",
     "logout": "Cerrar sesión",
-    "username": "Nombre de usuario",
+    "name": "Nombre de usuario",
     "email": "Correo electrónico",
     "password": "Contraseña",
     "confirm_password": "Confirmar contraseña",
@@ -20,11 +20,12 @@
     "email_invalid": "Dirección de correo electrónico no válida.",
 	"email_registered": "El correo electrónico ya está registrado en nuestra base de datos.",
     "email_not_registered": "El correo electrónico no está registrado en nuestra base de datos.",
-    "username_required": "El nombre de usuario es obligatorio.",
-    "username_short": "El nombre de usuario debe tener al menos 3 caracteres.",
-    "username_long": "El nombre de usuario debe tener como máximo 14 caracteres.",
-    "username_spaces": "El nombre de usuario no puede contener espacios.",
-    "username_invalid": "El nombre de usuario solo puede contener letras, números y guiones bajos.",
+    "name_required": "El nombre de usuario es obligatorio.",
+    "name_short": "El nombre de usuario debe tener al menos 3 caracteres.",
+    "name_long": "El nombre de usuario debe tener como máximo 14 caracteres.",
+    "name_spaces": "El nombre de usuario no puede contener espacios.",
+    "name_invalid": "El nombre de usuario solo puede contener letras, números y guiones bajos.",
+	"name_taken": "El nombre de usuario ya está en uso.",
     "password_required": "La contraseña es obligatoria.",
     "password_short": "La contraseña debe tener al menos 6 caracteres.",
     "password_capital": "La contraseña debe contener al menos una letra mayúscula.",
@@ -38,7 +39,8 @@
 	"invalid_credentials": "Nombre de usuario o contraseña incorrectos.",
 	"csrf_error": "La sesión ha expirado. Por favor, recarga la página.",
 	"unexpected": "Ocurrió un error inesperado. Por favor, inténtalo de nuevo.",
-	"unknown": "Ocurrió un error desconocido. Por favor, inténtalo de nuevo." 
+	"unknown": "Ocurrió un error desconocido. Por favor, inténtalo de nuevo.",
+	"database_error": "Error conectando con la base de datos (Endpoint no encontrado o usuario inexistente)"
   },
   "landing": {
     "title": "TRANSCENDENCE CARD GAME",
@@ -85,15 +87,14 @@
     "logout": "Cerrar sesión"
   },
   "dashboard": {
-    "hello": "Hola",
-    "ready": "¿Estás listo para jugar?",
     "play": "Jugar ahora",
     "friends": "Amigos",
     "profile": "Perfil",
+	"ranking": "Ranking",
+	"collection": "Colección",
     "profile_info": "Ver tu perfil",
-    "leaderboard": "Clasificación",
-    "leaderboard_info": "Ranking de los mejores jugadores", 
-	"history": "Historial de partidas"
+    "ranking_info": "Top players ranking",
+	"collection_info": "Ver tu colección"
   },
   "friends": {
     "title": "Lista de amigos",
@@ -112,6 +113,7 @@
     "wins": "Victorias",
     "losses": "Derrotas",
     "win_rate": "Tasa de victorias",
+	"history": "Historial de partidas",
     "no_stats": "No hay estadísticas disponibles.",
     "edit_profile": "Editar perfil",
     "save_changes": "Guardar cambios",
@@ -152,7 +154,7 @@
 	"search_player": "Buscar jugador...",
 	"no_ranking": "No hay datos de ranking disponibles.",
 	"position": "Posición",
-	"username": "Nombre de usuario",
+	"name": "Nombre de usuario",
 	"you": "TÚ",
 	"trend": "Tendencia",
 	"points": "Puntos"

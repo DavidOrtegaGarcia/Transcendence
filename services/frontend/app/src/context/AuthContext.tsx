@@ -27,9 +27,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             // Intentamos obtener el usuario al cargar la página
             const userData = await authService.getUser();
             setUser(userData);
-        } catch (error) {
+        } catch (error: any) {
             // Si falla (401 Unauthorized), significa que no hay sesión o expiró
-            // No es un error, simplemente no está logueado
+            // No es un error, simplemente no está logueado para evitar el error en consola, eliminamos el flag de localStorage y limpiamos el estado de usuario
+			if (error.response && error.response.status === 401) 
+                localStorage.removeItem('is_logged_in');
             setUser(null);
         } finally {
             setIsLoading(false);

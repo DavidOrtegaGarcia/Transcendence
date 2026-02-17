@@ -27,7 +27,7 @@ const Ranking = () => {
  
              const mockRanking: RankedUser[] = Array.from({ length: 15 }).map((_, i) => ({
                  id: i + 1,
-                 username: i === 0 ? "TheKing" : i === 1 ? "NexusMaster" : i === 5 ? "Miriam" : i === 3 ? "Name14CharsMax" : `Player_${i + 1}`,
+                 name: i === 0 ? "TheKing" : i === 1 ? "NexusMaster" : i === 5 ? "Miriam" : i === 3 ? "Name14CharsMax" : `Player_${i + 1}`,
                  avatar: i < 6 ? `/assets/avatars/${['wizard', 'warrior', 'sorceress', 'dragon', 'rogue', 'queen'][i]}.png` : "",
                  email: "test@test.com",
                  status: 'online',
@@ -45,7 +45,7 @@ const Ranking = () => {
 
     const topThree = rankingData.slice(0, 3);
     const restOfPlayers = rankingData.slice(3).filter(player => 
-        player.username.toLowerCase().includes(searchTerm.toLowerCase())
+        player.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     if (isLoading) return <DashboardLayout isCentered={true}><LoadingState message={t('common.loading')} /></DashboardLayout>;
@@ -101,7 +101,7 @@ const Ranking = () => {
                 {/* --- MOBILE VIEW (CARDS 2 LÍNEAS) --- */}
                 <div className="grid gap-3 lg:hidden">
                     {restOfPlayers.map((player) => (
-                        <div key={player.id} className={`glass-panel p-4 relative overflow-hidden ${player.username === "Miriam" ? "border-brand-500/50 bg-brand-500/5" : ""}`}>
+                        <div key={player.id} className={`glass-panel p-4 relative overflow-hidden ${player.name === "Miriam" ? "border-brand-500/50 bg-brand-500/5" : ""}`}>
                             
                             {/* LÍNEA 1: Posición + Usuario */}
                             <div className="flex items-center gap-3 mb-3">
@@ -111,8 +111,8 @@ const Ranking = () => {
                                 <div className="flex-1">
                                     <PlayerBadge 
                                         avatar={player.avatar} 
-                                        username={player.username} 
-                                        isCurrentUser={player.username === "Miriam"}
+                                        name={player.name} 
+                                        isCurrentUser={player.name === "Miriam"}
                                         className="justify-start! [&>div:first-child]:w-auto [&>div:first-child]:pr-3 [&>div:last-child]:w-auto [&>div:last-child]:pl-3" 
                                     />
                                 </div>
@@ -150,7 +150,7 @@ const Ranking = () => {
                         <thead className="bg-white/5 text-slate-200 uppercase text-xs font-bold">
                             <tr>
                                 <th className="px-6 py-4 text-center w-16">#</th>
-                                <th className="px-6 py-4 text-center">{t('common.username')}</th>
+                                <th className="px-6 py-4 text-center">{t('common.name')}</th>
                                 <th className="px-6 py-4 text-center w-44">{t('ranking.trend')}</th>
                                 <th className="px-6 py-4 text-center w-44">{t('profile.wins')}</th>
                                 <th className="px-6 py-4 text-right w-48">{t('ranking.points')}</th>
@@ -158,13 +158,13 @@ const Ranking = () => {
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {restOfPlayers.map((player) => (
-                                <tr key={player.id} className={`hover:bg-white/5 transition-colors group ${player.username === "Miriam" ? "bg-brand-500/10" : ""}`}>
+                                <tr key={player.id} className={`hover:bg-white/5 transition-colors group ${player.name === "Miriam" ? "bg-brand-500/10" : ""}`}>
                                     <td className="px-6 py-4 text-center font-mono font-bold text-slate-500 group-hover:text-white transition-colors">{player.rank}</td>
                                     <td className="px-6 py-4">
                                         <PlayerBadge 
                                             avatar={player.avatar} 
-                                            username={player.username} 
-                                            isCurrentUser={player.username === "Miriam"} 
+                                            name={player.name} 
+                                            isCurrentUser={player.name === "Miriam"} 
                                         />
                                     </td>
                                     <td className="px-6 py-4 text-center">

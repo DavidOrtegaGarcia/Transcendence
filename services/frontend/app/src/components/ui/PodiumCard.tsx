@@ -47,7 +47,7 @@ const PodiumCard = ({ player, place, isWinner = false, delay = "0s" }: PodiumCar
                         ${avatarSizeClass}
                     `}>
                         {player.avatar ? (
-                            <img src={player.avatar} alt={player.username} className="w-full h-full object-cover" />
+                            <img src={player.avatar} alt={player.name} className="w-full h-full object-cover" />
                         ) : (
                             <div className="w-full h-full flex items-center justify-center text-slate-600">
                                 {/* Unified fallback icon size */}
@@ -77,7 +77,7 @@ const PodiumCard = ({ player, place, isWinner = false, delay = "0s" }: PodiumCar
                 ${isWinner ? 'border-brand-500/30' : 'border-white/5'}
             `}>
                 <h3 className={`font-bold ${isWinner ? 'text-2xl text-white' : 'text-xl text-slate-200'} mb-1`}>
-                    {player.username}
+                    {player.name}
                 </h3>
                 <p className="text-brand-400 font-mono font-bold text-lg mb-2">
                     {player.points} <span className="text-xs text-slate-500 font-sans">PTS</span>

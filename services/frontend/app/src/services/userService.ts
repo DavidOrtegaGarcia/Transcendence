@@ -1,25 +1,29 @@
-// src/services/userService.ts
 import api from './api';
-import type { User } from '../context/Auth';
+import type { UserProfile } from '../models/User';
 
-/* Este servicio se encargará de las operaciones relacionadas con el usuario, como obtener su perfil, actualizarlo, etc. */
+/* This service will handle operations related to the user, such as getting their profile, updating it, etc. */
 export interface UpdateProfilePayload {
-    username: string;
+    name: string;
     bio?: string;
     language?: string;
     password?: string;
     avatar?: string;
 }
 
-/* Por ahora solo implementaremos un método de ejemplo para obtener el perfil del usuario, pero se pueden añadir más métodos según las necesidades de la aplicación. */
 const userService = {
-    // Ejemplo de método real
-    getProfile: async (): Promise<User> => {
-        const response = await api.get('/user');
+    /* Get user profile by id */
+    getProfile: async (id: string | number): Promise<UserProfile> => {
+        const response = await api.get(`/v1/users/${id}`);
+        return response.data;
+    },
+
+	updateProfile: async (payload: UpdateProfilePayload): Promise<UserProfile> => {
+        // Preguntar a Kevin si usa PUT para actualizar
+        const response = await api.put(`/v1/users/profile`, payload);
         return response.data;
     },
     
-    // Puedes dejar un placeholder si no tienes la ruta aún
+    // 
     consoleLog: () => {
         console.log("Servicio de usuario listo");
     }

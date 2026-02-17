@@ -4,7 +4,7 @@
     "login": "Iniciar sessió",
     "register": "Registrar-se",
     "logout": "Tancar sessió",
-    "username": "Nom d'usuari",
+    "name": "Nom d'usuari",
     "email": "Correu electrònic",
     "password": "Contrasenya",
     "confirm_password": "Confirma la contrasenya",
@@ -20,11 +20,12 @@
     "email_invalid": "Adreça de correu electrònic no vàlida.",
 	"email_registered": "El correu electrònic ja està registrat a la nostra base de dades.",
     "email_not_registered": "El correu electrònic no està registrat a la nostra base de dades.",
-    "username_required": "El nom d'usuari és obligatori.",
-    "username_short": "El nom d'usuari ha de tenir almenys 3 caràcters.",
-    "username_long": "El nom d'usuari ha de tenir com a màxim 14 caràcters.",
-    "username_spaces": "El nom d'usuari no pot contenir espais.",
-    "username_invalid": "El nom d'usuari només pot contenir lletres, números i guions baixos.",
+    "name_required": "El nom d'usuari és obligatori.",
+    "name_short": "El nom d'usuari ha de tenir almenys 3 caràcters.",
+    "name_long": "El nom d'usuari ha de tenir com a màxim 14 caràcters.",
+    "name_spaces": "El nom d'usuari no pot contenir espais.",
+    "name_invalid": "El nom d'usuari només pot contenir lletres, números i guions baixos.",
+	"name_taken": "Aquest nom d'usuari ja està en ús.",
     "password_required": "La contrasenya és obligatòria.",
     "password_short": "La contrasenya ha de tenir almenys 6 caràcters.",
     "password_capital": "La contrasenya ha de contenir almenys una lletra majúscula.",
@@ -38,7 +39,8 @@
 	"invalid_credentials": "Nom d'usuari o contrasenya incorrectes.",
 	"csrf_error": "La sessió ha expirat. Si us plau, recarrega la pàgina.",
 	"unexpected": "Ha hagut un error inesperat. Si us plau, intenta-ho de nou.",
-	"unknown": "Ha hagut un error desconegut. Si us plau, intenta-ho de nou." 
+	"unknown": "Ha hagut un error desconegut. Si us plau, intenta-ho de nou.",
+	"database_error": "Error conectant amb la base de dades (Endpoint no trobat o usuari inexistent)"
   },
   "landing": {
     "title": "TRANSCENDENCE CARD GAME",
@@ -85,15 +87,14 @@
     "logout": "Tancar sessió"
   },
   "dashboard": {
-    "hello": "Hola",
-    "ready": "Estàs preparat per jugar?",
-    "play": "Juga ara",
+    "play": "Jugar ara",
     "friends": "Amics",
     "profile": "Perfil",
+	"ranking": "Rànquing",
+	"collection": "Colecció",
     "profile_info": "Veure el teu perfil",
-    "leaderboard": "Classificació",
-    "leaderboard_info": "Rànquing dels millors jugadors",
-	"history": "Historial de partides"
+    "ranking_info": "Top players ranking",
+	"collection_info": "Veure la teva colecció"
   },
   "friends": {
     "title": "Llista d'amics",
@@ -112,6 +113,7 @@
     "wins": "Victòries",
     "losses": "Derrotes",
     "win_rate": "Taxa de victòries",
+	"history": "Historial de partides",
     "no_stats": "No hi ha estadístiques disponibles.",
     "edit_profile": "Editar perfil",
     "save_changes": "Desar canvis",
@@ -152,7 +154,7 @@
 	"search_player": "Cerca jugador...",
 	"no_ranking": "No hi ha dades de rànquing disponibles.",
 	"position": "Posició",
-	"username": "Nom d'usuari",
+	"name": "Nom d'usuari",
 	"you": "TU",
 	"trend": "Tendència",
 	"points": "Punts"
