@@ -19,6 +19,11 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController
 {
+    public function getUser(Request $request, User $user)
+    {
+        return response()->json($user->toResource(), 200);
+    }
+
     public function getUsers(Request $request)
     {
         $validated = $request->validate([

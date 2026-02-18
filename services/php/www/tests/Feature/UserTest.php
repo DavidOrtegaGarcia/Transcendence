@@ -61,7 +61,26 @@ class UserTest extends TestCase
             'email',
             'avatar',
             'bio',
-            'total_experience',
+            'language',
+        ]);
+    }
+
+    public function test_get_user()
+    {
+        $target = User::factory()->create();
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+
+        $response = $this->getJson("/v1/users/{$target->id}")->assertOk();
+
+        $response->assertJsonStructure([
+            'id',
+            'username',
+            'email',
+            'avatar',
+            'bio',
+            'language',
         ]);
     }
 

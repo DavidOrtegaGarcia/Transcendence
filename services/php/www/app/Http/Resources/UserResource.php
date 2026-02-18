@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Enums\Language;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,7 +21,7 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar,
             'bio' => $this->bio,
-            'total_experience' => $this->experience
+            'language' => $this->language->value ?? Language::SPANISH->value,
         ];
     }
 }
