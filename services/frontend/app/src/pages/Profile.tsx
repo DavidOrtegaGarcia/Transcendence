@@ -9,6 +9,7 @@ import PlayerBadge from '../components/ui/PlayerBadge';
 import type { UserProfile } from '../models/User';
 import { useAuth } from '../context/AuthContext';
 import userService from '../services/userService';
+import authService from '../services/authService';
 
 const Profile = () => {
     const { t } = useTranslation();
@@ -16,6 +17,8 @@ const Profile = () => {
     
     /* Get authenticated user from context */
     const { user: authUser, isLoading: isAuthLoading } = useAuth();
+	console.log("Authenticated user from context:", authUser);
+	console.log("Auth loading state:", isAuthLoading);
 
     /* Determine if viewing own profile or another user's */
     const isOwnProfile = !id || (authUser && id === authUser.id.toString());
@@ -34,33 +37,30 @@ const Profile = () => {
     };
 
     useEffect(() => {
+        // 1. Esperamos a que la autenticación termine
         if (isAuthLoading) return;
 
-        const fetchProfile = async () => {
+        const fetchProfileData = async () => {
             setIsLoading(true);
-            
             try {
-                // Obtenemos el ID de la URL o el ID del usuario logueado
-                const targetId = id || authUser?.id;
-                
-                if (!targetId) {
-                    throw new Error("No user specified");
-                }
+				// En peticiones GET de Sanctum, si ya estás logueado, 
+				// withCredentials: true en api.ts es suficiente.
+				const targetId = id || authUser?.id;
+				if (!targetId) throw new Error("No user specified");
 
-                // PETICIÓN EXCLUSIVA A LA BASE DE DATOS
-                const data = await userService.getProfile(targetId);
-                setProfileData(data);
-
-            } catch (error) {
+				const data = await userService.getProfile(targetId);
+				setProfileData(data);
+			} catch (error: any) {
+                // 4. Si el usuario no existe, el backend devolverá 404. 
+                // El catch lo atrapará y pondrá profileData a null, mostrando el triángulo de error.
                 console.error("Error al obtener los datos de la base de datos:", error);
-                // Si la base de datos falla (404, 500, etc), mostramos el error en pantalla
                 setProfileData(null);
             } finally {
                 setIsLoading(false);
             }
         };
-        
-        fetchProfile();
+
+        fetchProfileData();
     }, [id, authUser, isAuthLoading]);
 
     if (isLoading) return <DashboardLayout isCentered={true}><LoadingState message={t('common.loading')} /></DashboardLayout>;

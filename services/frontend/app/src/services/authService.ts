@@ -33,10 +33,7 @@ const authService = {
     /** getUser to obtain actual user (Check Session) */
     getUser: async (): Promise<User> => {
         const response = await api.get('/user');
-        return {
-            ...response.data,
-            name: response.data.name
-        };  
+        return response.data;  
     }
 };
 

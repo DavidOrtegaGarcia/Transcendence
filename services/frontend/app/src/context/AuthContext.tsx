@@ -46,10 +46,12 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const login = async (userData: LoginCredentials) => { 
         try {
             setIsLoading(true);
+			console.log("MI CONSOLE:", userData);
             // Esto llama al backend -> cookie -> session
             const userResponse = await authService.login(userData);
 			/* Si el login es exitoso, establecemos el flag en localStorage para futuras recargas. Este flag no es seguro, pero ayuda a reducir las peticiones al backend y evita errores en consola */
 			localStorage.setItem('is_logged_in', 'true');
+			console.log("Login successful, user data:", userResponse);
             setUser(userResponse);
         } catch (error) {
             console.error("Error login", error);
@@ -66,7 +68,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			const userResponse = await authService.register(userData);
 			// Fortify auto-loguea tras el registro, así que activamos el flag para saber que el usuario ya está logueado y evitar errores en consola al recargar la página después de registrarse. Este flag no es seguro, pero ayuda a reducir las peticiones al backend y evita errores en consola.
             localStorage.setItem('is_logged_in', 'true');
-			
+			console.log("Respuesta del registro:", userResponse);
 			setUser(userResponse);
 		} catch (error) {
 			console.error("Error register", error);
