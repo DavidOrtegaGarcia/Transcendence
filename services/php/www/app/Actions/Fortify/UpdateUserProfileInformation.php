@@ -2,8 +2,10 @@
 
 namespace App\Actions\Fortify;
 
+use App\Enums\Language;
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -18,8 +20,8 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     public function update(User $user, array $input): void
     {
         Validator::make($input, [
-            'name' => ['required', 'string', 'max:255'],
-
+            'username' => ['required', 'string', 'max:255'],
+            
             'email' => [
                 'required',
                 'string',
@@ -27,6 +29,13 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
                 'max:255',
                 Rule::unique('users')->ignore($user->id),
             ],
+            'bio' => [
+                'nullable',
+                'string',
+                'max:255',
+            ],
+            'avatar' => ['nullable', 'image', 'max:2048'],
+            'language' => [Rule::enum(Language::class)]
         ])->validateWithBag('updateProfileInformation');
 
         if ($input['email'] !== $user->email &&
@@ -34,9 +43,16 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
             $this->updateVerifiedUser($user, $input);
         } else {
             $user->forceFill([
-                'name' => $input['name'],
+                'name' => $input['username'],
                 'email' => $input['email'],
+                'bio' => $input['bio'],
+                'language' => $input['language']
             ])->save();
+        }
+
+        if (isset($input['avatar'])) 
+        {
+            $user->updateAvatar($input['avatar']);
         }
     }
 

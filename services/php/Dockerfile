@@ -43,7 +43,9 @@ COPY www .
 # To create composer static class map, used to detect classes or libraries without #include
 RUN composer dump-autoload --optimize
 
+RUN mkdir -p /var/www/storage /var/www/bootstrap/cache
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
 COPY ./conf/php.ini /usr/local/etc/php/conf.d/custom.ini
 RUN chmod 644 /usr/local/etc/php/conf.d/custom.ini
