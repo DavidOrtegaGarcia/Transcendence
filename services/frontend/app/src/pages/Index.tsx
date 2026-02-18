@@ -15,7 +15,10 @@ const Index = () => {
 	/*Eliminar cuando tenga BBDD */
 	const { user, isLoading } = useAuth();
 
-	if (isLoading) return <LoadingState />;
+	console.log(user);
+
+	if (isLoading)
+		return <LoadingState />;
 
 	if (!user) {
 		return null;

@@ -51,8 +51,8 @@ function App() {
 						{/*Route to profile without parameters */}
     					<Route path="/profile" element={<Profile />} />
     
-						{/* Route to view OTHERS (the :username is the variable) */}
-						<Route path="/profile/:username" element={<Profile />} />
+						{/* Route to view OTHERS (the :id is the variable) */}
+						<Route path="/profile/:id" element={<Profile />} />
 						<Route path="/edit_profile" element={<EditProfile />} />
 						<Route path="/ranking" element={<Ranking />} />
                         {/* Aquí irán /game, /chat, etc. */}
