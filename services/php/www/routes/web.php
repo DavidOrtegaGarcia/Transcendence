@@ -31,7 +31,11 @@ Route::middleware('auth:sanctum')->group(function () {
      * 
      */
     Route::prefix('/v1')->group(function () {
-
+        // Own user
+        Route::get('/user', [UserController::class, 'getOwnUser']);
+        Route::put('/user/password/update', [UserController::class, 'updateOwnPassword']);
+        Route::patch('/user/update', [UserController::class, 'updateUser']);
+    
         // User
         Route::get('/users', [UserController::class, 'getUsers']);
         // Route::get('/users/{id}', [UserController::class, 'getUser']);

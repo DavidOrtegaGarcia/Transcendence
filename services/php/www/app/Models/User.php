@@ -3,11 +3,13 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Language;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Sanctum\HasApiTokens;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 
@@ -50,11 +52,24 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'language' => Language::class
         ];
     }
 
     public function oauthIdentities(): HasMany
     {
         return $this->hasMany(OAuthIdentity::class);
+    }
+
+    public function updateAvatar($avatar)
+    {
+        $path = $avatar->store('avatars', 'public');
+
+        if ($this->avatar) 
+        {
+            Storage::disk('public')->delete($this->avatar);
+        }
+
+        $this->avatar = $path;
     }
 }
