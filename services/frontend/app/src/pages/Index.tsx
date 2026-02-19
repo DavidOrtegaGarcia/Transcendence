@@ -8,14 +8,12 @@ import { useEffect, useState } from 'react';
 import type { UserProfile } from '../models/User';
 import { useAuth } from '../context/AuthContext';
 import LoadingState from '../components/ui/LoadingState';
+import ProfileHeader from '../components/ui/ProfileHeader';
 
 const Index = () => {
 	const { t } = useTranslation();
 	const navigate = useNavigate();
-	/*Eliminar cuando tenga BBDD */
 	const { user, isLoading } = useAuth();
-
-	console.log(user);
 
 	if (isLoading)
 		return <LoadingState />;
@@ -34,11 +32,11 @@ const Index = () => {
 
 			/* Simulacion de usuarios eliminar cuando tenga BBDD */
 			const mockDatabaseResponse: UserProfile[] = [
-				{ id: 1, name: "Miriam", status: "online", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
-				{ id: 2, name: "Ivan", status: "playing", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
-				{ id: 3, name: "Kevin", status: "online", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
-				{ id: 4, name: "David", status: "offline", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
-				{ id: 5, name: "Alice_Bot", status: "offline", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } }
+				{ id: 1, username: "Miriam", status: "online", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
+				{ id: 2, username: "Ivan", status: "playing", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
+				{ id: 3, username: "Kevin", status: "online", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
+				{ id: 4, username: "David", status: "offline", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } },
+				{ id: 5, username: "Alice_Bot", status: "offline", stats: { gamesPlayed: 0, wins: 0, losses: 0, winRate: 0 } }
 			];
 			setFriendsList(mockDatabaseResponse);
 		};
@@ -66,34 +64,7 @@ const Index = () => {
 			<div className="max-w-5xl mx-auto w-full animate-fade-in-up pb-10">
 
 				{/* Header with user info */}
-				<div className="glass-panel p-8 mb-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-					<div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3"></div>
-					<div className="relative group">
-						<div className="w-32 h-32 rounded-full border-4 border-dark-800 shadow-2xl overflow-hidden bg-dark-900 flex items-center justify-center">
-							{user.avatar ? (
-								<img src={user.avatar} alt="Profile" className="w-full h-full object-cover" />
-							) : (
-								<FaUser className="text-slate-600 w-7/12 h-7/12 object-cover" />
-							)}
-						</div>
-					</div>
-					<div className="flex-1 text-center md:text-left z-10">
-						<h1 className="text-4xl font-bold text-white mb-2">{user.name}</h1>
-						<p className="text-slate-400 text-sm mb-4 bg-dark-900/50 inline-block px-3 py-1 rounded-full border border-white/5">
-							{user.email}
-						</p>
-						<div className="flex flex-wrap justify-center md:justify-start gap-3 mt-2">
-							<span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-brand-500/10 text-brand-500 text-sm font-bold border border-brand-500/20">
-								Lvl. 1
-							</span>
-							<Link to="/edit_profile">
-								<button className="btn-icon btn-secondary px-6 py-1.5 gap-2 text-sm font-bold">
-									<FaEdit /> {t('profile.edit_profile')}
-								</button>
-							</Link>
-						</div>
-					</div>
-				</div>
+				<ProfileHeader userData={user} isOwnProfile={true} />
 
 				<div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-8 animate-fade-in-up">
 					{/* Play Card (Primary) */}
@@ -127,7 +98,7 @@ const Index = () => {
 						onClick={() => navigate("/ranking")}
 					/>
 
-					{/* NUEVA: Collection Card */}
+					{/* Collection Card */}
 					<DashboardCard
 						title={t('dashboard.collection') || "Collection"}
 						subtitle={t('dashboard.collection_info') || "View your special cards"}

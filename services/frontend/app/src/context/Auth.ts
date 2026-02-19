@@ -6,7 +6,7 @@ export interface LoginCredentials {
 
 /* Register Credentials for registering */
 export interface RegisterCredentials {
-    name: string;
+    username: string;
     email: string;
     password: string;
 	password_confirmation: string;
@@ -15,9 +15,11 @@ export interface RegisterCredentials {
 /* User information for logged in user */
 export interface User {
     id: string;
-    name: string;
+    username: string;
     email: string;
     avatar?: string;
+	experience: number;
+	bio?: string;
     // Añadir mas campos cuando sepamos los que necesitamos
 }
 

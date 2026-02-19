@@ -13,13 +13,14 @@ export interface UserStats {
 
 export interface UserProfile {
 	id: number;
-	name: string;
+	username: string;
 	email?: string;
 	avatar?: string;
 	status?: 'online' | 'offline' | 'playing';
 	stats: UserStats;
 	bio?: string;
     language?: 'en' | 'es' | 'ca';
+	experience?: number;
 	
 	history?: MatchHistory[];
 	// campos adicionales según sea necesario

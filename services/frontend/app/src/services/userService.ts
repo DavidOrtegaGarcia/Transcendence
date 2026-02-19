@@ -12,12 +12,10 @@ export interface UpdateProfilePayload {
 
 const userService = {
     /* Get user profile by id */
-    getProfile: async (id: string | number): Promise<UserProfile> => {
-        // const response = await api.get(`/user/${id}`);
-		const response = await api.get(`/api/user/${id}`);
+   getProfile: async (id: string | number): Promise<UserProfile> => {
+        const response = await api.get(`/api/users/${id}`);
         return response.data;
     },
-
 	updateProfile: async (payload: UpdateProfilePayload): Promise<UserProfile> => {
         // Preguntar a Kevin si usa PUT para actualizar
         const response = await api.put(`/users/profile`, payload);

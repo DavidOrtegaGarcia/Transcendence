@@ -10,6 +10,7 @@ import type { UserProfile } from '../models/User';
 import { useAuth } from '../context/AuthContext';
 import userService from '../services/userService';
 import authService from '../services/authService';
+import ProfileHeader from '../components/ui/ProfileHeader';
 
 const Profile = () => {
     const { t } = useTranslation();
@@ -17,11 +18,9 @@ const Profile = () => {
     
     /* Get authenticated user from context */
     const { user: authUser, isLoading: isAuthLoading } = useAuth();
-	console.log("Authenticated user from context:", authUser);
-	console.log("Auth loading state:", isAuthLoading);
 
     /* Determine if viewing own profile or another user's */
-    const isOwnProfile = !id || (authUser && id === authUser.id.toString());
+    const isOwnProfile = Boolean(!id || (authUser && id === authUser.id.toString()));
 
     const [profileData, setProfileData] = useState<UserProfile | null>(null);
     const [isLoading, setIsLoading] = useState(true);
@@ -71,25 +70,16 @@ const Profile = () => {
                 {profileData ? (
                     <>
                         {/* HEADER */}
-                        <div className="glass-panel p-8 mb-8 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-                            <div className="absolute top-0 right-0 w-64 h-64 bg-brand-500/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/3"></div>
-                            <div className="relative group">
-                                <div className="w-32 h-32 rounded-full border-4 border-dark-800 shadow-2xl overflow-hidden bg-dark-900 flex items-center justify-center">
-                                    {profileData.avatar ? <img src={profileData.avatar} alt="Profile" className="w-full h-full object-cover" /> : <FaUser className="text-slate-600 w-7/12 h-7/12 object-cover" />}
-                                </div>
-                            </div>
-                            <div className="flex-1 text-center md:text-left z-10">
-                                <h1 className="text-4xl font-bold text-white mb-2">{profileData.name}</h1>
-                                {isOwnProfile && <p className="text-slate-400 text-sm mb-4 bg-dark-900/50 inline-block px-3 py-1 rounded-full border border-white/5">{profileData.email}</p>}
-                                <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-2">
-                                    {isOwnProfile ? (
-                                        <Link to="/edit_profile"><button className="btn-icon btn-secondary px-6 gap-2 text-sm font-bold"><FaEdit /> {t('profile.edit_profile')}</button></Link>
-                                    ) : (
-                                        <button className="btn-icon btn-primary px-6 gap-2 text-sm font-bold"><FaGamepad size={20} /> {t('dashboard.play')}</button>
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        <ProfileHeader 
+							userData={{
+								username: profileData.username,
+								email: profileData.email || "",
+								avatar: profileData.avatar,
+								bio: profileData.bio,
+								experience: profileData.experience
+							}} 
+							isOwnProfile={isOwnProfile} 
+						/>
 
                         {/* STATS */}
                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><FaTrophy className="text-warning" /> {t('profile.stats')}</h3>
