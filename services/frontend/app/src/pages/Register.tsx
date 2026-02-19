@@ -21,8 +21,8 @@ const Register = () => {
     }, [isAuthenticated, navigate]);
 
     /* Inputs States */
-    const [formData, setFormData] = useState({ name: "", email: "", password: "" });
-    const [errors, setErrors] = useState({ name: "", email: "", password: "" });
+    const [formData, setFormData] = useState({ username: "", email: "", password: "" });
+    const [errors, setErrors] = useState({ username: "", email: "", password: "" });
 
     /* Handle Input Change */
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,12 +34,12 @@ const Register = () => {
     /* Validation Function */
     const validate = (data: typeof formData) => {
         /* Validate each field using utility functions */
-        const nameError = validateName(data.name, t);
+        const nameError = validateName(data.username, t);
         const emailError = validateEmail(data.email, t);
         const passwordError = validatePassword(data.password, t);
 
         const newErrors = {
-            name: nameError,
+            username: nameError,
             email: emailError,
             password: passwordError
         };
@@ -54,7 +54,7 @@ const Register = () => {
         e.preventDefault();
         
         const cleanData = {
-			name: formData.name.trim(),
+			username: formData.username.trim(),
             email: formData.email.trim(),
             password: formData.password,
 			password_confirmation: formData.password
@@ -104,7 +104,7 @@ const Register = () => {
                 <AlertSuccess title={t("register.success")} message={t("register.redirecting")} />
             ) : (
                 <form className="space-y-4" noValidate onSubmit={handleSubmit}>
-                    <InputGroup label={t('common.name')} type="text" name="name" placeholder="player1" value={formData.name} onChange={handleChange} error={errors.name} />
+                    <InputGroup label={t('common.name')} type="text" name="username" placeholder="player1" value={formData.username} onChange={handleChange} error={errors.username} />
                     <InputGroup label={t('common.email')} type="email" name="email" placeholder="email@email.com" value={formData.email} onChange={handleChange} error={errors.email} />
                     <InputGroup label={t('common.password')} type="password" name="password" placeholder="••••••••" value={formData.password} onChange={handleChange} error={errors.password} className="mb-8" />
 

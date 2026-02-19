@@ -114,6 +114,7 @@
     "losses": "Derrotes",
     "win_rate": "Taxa de victòries",
 	"history": "Historial de partides",
+	"no_bio": "No hi ha bio disponible.",
     "no_stats": "No hi ha estadístiques disponibles.",
     "edit_profile": "Editar perfil",
     "save_changes": "Desar canvis",
