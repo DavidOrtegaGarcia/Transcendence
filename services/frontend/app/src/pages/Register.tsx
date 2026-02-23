@@ -57,7 +57,8 @@ const Register = () => {
 			username: formData.username.trim(),
             email: formData.email.trim(),
             password: formData.password,
-			password_confirmation: formData.password
+			password_confirmation: formData.password,
+			language: 'EN'
         };
 
         if (validate(cleanData)) {

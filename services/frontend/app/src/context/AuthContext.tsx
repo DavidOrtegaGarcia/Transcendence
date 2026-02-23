@@ -2,6 +2,8 @@ import { createContext, useContext, useState, useEffect, type ReactNode } from '
 import type { User, AuthContextType } from './Auth';
 import authService from '../services/authService';
 import type { LoginCredentials, RegisterCredentials } from './Auth';
+import { langMapper } from '../utils/langMapper';
+import i18n from '../i18n';
 
 /* Creamos el contexto de autenticación con un valor inicial undefined, lo que nos ayudará a detectar si el hook se usa fuera del provider. */
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -11,6 +13,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User | null>(null);
     // Iniciamos isLoading en true para que la app espere a verificar la sesión antes de mostrar nada
     const [isLoading, setIsLoading] = useState<boolean>(true);
+
+	// Función para sincronizar el idioma del usuario con i18n
+	const syncLanguage = (dbLanguage?: string) => {
+        if (dbLanguage) {
+            const targetLang = langMapper[dbLanguage] || 'en';
+            i18n.changeLanguage(targetLang);
+            localStorage.setItem('lang', targetLang);
+        }
+    };
 
 	/* Esta función se encargará de verificar si el usuario ya tiene una sesión activa al cargar la página. */
     const checkSession = async () => {
@@ -27,6 +38,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             // Intentamos obtener el usuario al cargar la página
             const userData = await authService.getUser();
             setUser(userData);
+			syncLanguage(userData.language);
         } catch (error: any) {
             // Si falla (401 Unauthorized), significa que no hay sesión o expiró
             // No es un error, simplemente no está logueado para evitar el error en consola, eliminamos el flag de localStorage y limpiamos el estado de usuario
@@ -43,54 +55,58 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }, []);
 
     // Login REAL
-    const login = async (userData: LoginCredentials) => { 
+    const login = async (credentials: LoginCredentials) => { 
         try {
             setIsLoading(true);
-			console.log("MI CONSOLE:", userData);
-            // Esto llama al backend -> cookie -> session
-            const userResponse = await authService.login(userData);
-			/* Si el login es exitoso, establecemos el flag en localStorage para futuras recargas. Este flag no es seguro, pero ayuda a reducir las peticiones al backend y evita errores en consola */
-			localStorage.setItem('is_logged_in', 'true');
-			console.log("Login successful, user data:", userResponse);
+            const userResponse = await authService.login(credentials);
+            
+            // userResponse es directamente el objeto User que devuelve Kevin
+            localStorage.setItem('is_logged_in', 'true');
+            
+            // Sincronizamos el idioma inmediatamente tras el login
+            syncLanguage(userResponse.language);
+            
             setUser(userResponse);
         } catch (error) {
             console.error("Error login", error);
-            throw error; // Lanzamos el error para que el componente Login pueda mostrar una alerta
+            throw error;
         } finally {
             setIsLoading(false);
         }
     };
 
 	/* Register REAL */
-	const register = async (userData: RegisterCredentials) => { 
-		try {
-			setIsLoading(true);
-			const userResponse = await authService.register(userData);
+	const register = async (credentials: RegisterCredentials) => { 
+        try {
+            setIsLoading(true);
+            const userResponse = await authService.register(credentials);
 			// Fortify auto-loguea tras el registro, así que activamos el flag para saber que el usuario ya está logueado y evitar errores en consola al recargar la página después de registrarse. Este flag no es seguro, pero ayuda a reducir las peticiones al backend y evita errores en consola.
             localStorage.setItem('is_logged_in', 'true');
-			console.log("Respuesta del registro:", userResponse);
-			setUser(userResponse);
-		} catch (error) {
-			console.error("Error register", error);
-			throw error; // Lanzamos el error para que el componente Register pueda mostrar una alerta
-		} finally {
-			setIsLoading(false);
-		}
-	};
+            
+            // Los registros nuevos suelen venir sin idioma o en inglés (EN)
+            syncLanguage(userResponse.language);
+            
+            setUser(userResponse);
+        } catch (error) {
+            console.error("Error register", error);
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Logout REAL
     const logout = async () => {
         try {
             await authService.logout();
-            setUser(null);
         } catch (error) {
             console.error("Error logout", error);
-            // Incluso si falla la petición de logout, limpiamos el estado local
-            setUser(null);
         } finally {
-			// Limpiamos el flag de localStorage al hacer logout
-			localStorage.removeItem('is_logged_in');
-		}
+            setUser(null);
+            localStorage.removeItem('is_logged_in');
+            // Opcional: resetear idioma a inglés al salir
+            i18n.changeLanguage('en');
+        }
     };
 
 	/* El provider pasa el estado y las funciones de login/logout a los componentes hijos a través del contexto. */
