@@ -20,6 +20,7 @@ export interface User {
     avatar?: string;
 	experience: number;
 	bio?: string;
+	language?: 'EN' | 'ES' | 'CAT';
     // Añadir mas campos cuando sepamos los que necesitamos
 }
 

@@ -3,7 +3,7 @@ import type { UserProfile } from '../models/User';
 
 /* This service will handle operations related to the user, such as getting their profile, updating it, etc. */
 export interface UpdateProfilePayload {
-    name: string;
+    username: string;
     bio?: string;
     language?: string;
     password?: string;
@@ -16,12 +16,18 @@ const userService = {
         const response = await api.get(`/api/users/${id}`);
         return response.data;
     },
+	/* Update user profile */
 	updateProfile: async (payload: UpdateProfilePayload): Promise<UserProfile> => {
         // Preguntar a Kevin si usa PUT para actualizar
-        const response = await api.put(`/users/profile`, payload);
+        const response = await api.patch(`/api/v1/user/update`, payload);
         return response.data;
     },
     
+	/* Update user password */
+    updatePassword: async (password: string): Promise<any> => {
+        const response = await api.put('/api/v1/user/password', { password });
+        return response.data;
+    },
     // 
     consoleLog: () => {
         console.log("Servicio de usuario listo");

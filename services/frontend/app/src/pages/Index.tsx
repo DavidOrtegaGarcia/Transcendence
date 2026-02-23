@@ -59,7 +59,7 @@ const Index = () => {
 
 
 	return (
-		<DashboardLayout isCentered={true}>
+		<DashboardLayout isCentered={false}>
 
 			<div className="max-w-5xl mx-auto w-full animate-fade-in-up pb-10">
 

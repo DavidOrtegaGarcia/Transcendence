@@ -7,6 +7,7 @@ import { MdLogout } from "react-icons/md";
 import Logo from './Logo';
 import LanguageSelector from './LanguageSelector';
 import { useAuth } from '../context/AuthContext';
+import i18n from '../i18n';
 
 const Navbar = () => {
 	const { t } = useTranslation();
@@ -27,6 +28,10 @@ const Navbar = () => {
 		/* Close menu if is mobile */
 		if (closeMenu) setIsMenuOpen(false);
 
+		 /* Clear localStorage (language preference) */
+		localStorage.removeItem('lang');
+		i18n.changeLanguage('en');
+		
 		/* Redirect to home (landing page)*/
 		navigate('/');
 		
