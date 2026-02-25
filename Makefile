@@ -15,7 +15,7 @@ clean: down
 		/tmp/certs \
 		/tmp/private \
 		/tmp/services/redis/data
-
+	
 	@if [ ! -z "$$(docker ps -qa)" ]; then \
 		docker stop $$(docker ps -qa); \
 		docker rm $$(docker ps -qa); \

@@ -57,6 +57,10 @@ services:
     build: ./services/php
     image: php
     container_name: laravel
+    secrets:
+      - app_key
+      - reverb_app_secret
+      - db_password
     volumes:
       - .env:/var/www/.env
       - ${PWD}/services/php/www:/var/www
@@ -83,6 +87,9 @@ services:
     image: php
     container_name: reverb
     command: php artisan reverb:start --host=0.0.0.0 --port=6001 --debug
+    secrets:
+      - app_key
+      - reverb_app_secret
     volumes:
       - .env:/var/www/.env
       - ${PWD}/services/php/www:/var/www
@@ -105,6 +112,10 @@ services:
     image: php  
     container_name: laravel_worker
     command: php artisan queue:work --verbose --tries=3 --timeout=90
+    secrets:
+      - app_key
+      - reverb_app_secret
+      - db_password
     volumes:
       - .env:/var/www/.env
       - ${PWD}/services/php/www:/var/www
@@ -158,14 +169,17 @@ services:
     environment:
       MARIADB_DATABASE: ${DB_DATABASE}
       MARIADB_USER: ${DB_USERNAME}
-      MARIADB_PASSWORD: ${DB_PASSWORD}
-      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MARIADB_PASSWORD_FILE: /run/secrets/db_password
+      MARIADB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
+    secrets:
+      - db_password
+      - db_root_password
     volumes:
       - mariadb_vm:/var/lib/mysql
     networks:
       - transcendence
     healthcheck:
-      test: ["CMD-SHELL", "test -s /var/lib/mysql/${DB_DATABASE} && mysqladmin ping -u root -p${DB_ROOT_PASSWORD}" ]
+      test: ["CMD-SHELL", "test -s /var/lib/mysql/${DB_DATABASE} && mysqladmin ping -u root -p$$(cat /run/secrets/db_root_password)" ]
       interval: 10s
       timeout: 5s
       retries: 20
@@ -193,6 +207,16 @@ volumes:
       o: bind
       type: none
 
+secrets:
+  app_key:
+    file: ${PWD}/secrets/app_key.txt
+  reverb_app_secret:
+    file: ${PWD}/secrets/reverb_app_secret.txt
+  db_password:
+    file: ${PWD}/secrets/db_password.txt
+  db_root_password:
+    file: ${PWD}/secrets/db_root_password.txt
+  
 networks:
   transcendence:
     name: transcendence

@@ -1,4 +1,5 @@
 /database/*
 /private/*
 /certs/*
+/secrets/*
 .env
