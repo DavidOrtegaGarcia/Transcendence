@@ -13,6 +13,7 @@ import Profile from './pages/Profile';
 import EditProfile from './pages/EditProfile';
 import Ranking from './pages/Ranking';
 import Error from './pages/Error';
+import Lobby from './pages/Lobby';
 
 function App() {
 	return (
@@ -56,6 +57,9 @@ function App() {
 						<Route path="/edit_profile" element={<EditProfile />} />
 						<Route path="/ranking" element={<Ranking />} />
                         {/* Aquí irán /game, /chat, etc. */}
+
+						{/* Route to Lobby with query parameters for mode and submode (ej: /lobby?mode=casual&submode=limited) */}
+						<Route path="/lobby" element={<Lobby />} />
                     </Route>
 
 					{/* Catch-all route for undefined paths */}

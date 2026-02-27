@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { FaUser, FaGamepad, FaEdit, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
+import { FaGamepad, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
 import { MdHistory } from "react-icons/md";
 import DashboardLayout from '../components/layouts/DashboardLayout';
 import LoadingState from '../components/ui/LoadingState';
@@ -9,7 +9,6 @@ import PlayerBadge from '../components/ui/PlayerBadge';
 import type { UserProfile } from '../models/User';
 import { useAuth } from '../context/AuthContext';
 import userService from '../services/userService';
-import authService from '../services/authService';
 import ProfileHeader from '../components/ui/ProfileHeader';
 
 const Profile = () => {

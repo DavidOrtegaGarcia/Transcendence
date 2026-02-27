@@ -88,6 +88,7 @@
   },
   "dashboard": {
     "play": "Jugar ahora",
+	"select_mode": "Selecciona el modo de juego",
     "friends": "Amigos",
     "profile": "Perfil",
 	"ranking": "Ranking",
@@ -95,6 +96,24 @@
     "profile_info": "Ver tu perfil",
     "ranking_info": "Top players ranking",
 	"collection_info": "Ver tu colección"
+  },
+  "game_modes": {
+	"title": "Selecciona el modo de juego",
+	"subtitle": "Elige tu camino hacia la gloria.",
+	"campaign": "Campana (PvE)",
+	"campaign_desc": "Aprende las reglas, desbloquea cartas y domina las mecánicas. Perfecto para principiantes.",
+	"current_phase": "Fase actual",
+	"casual": "Partida casual (PvP)",
+	"casual_desc": "Practica contra otros jugadores sin presión de ranking. Gana XP.",
+	"unlimited": "Ilimitado",
+	"no_cost_limit": "Sin límite de coste",
+	"limited": "Limitado",
+	"cost_limit": "Coste máximo 4",
+	"ranked": "Partida clasificada (PvP)",
+	"locked_ranked": "Completa la Fase 3 en la Campana para desbloquear",
+	"ranked_desc": "Modo competitivo con todas las reglas activas. Sube en el ranking.",
+	"deck_limit": "Límite de coste del mazo",
+	"find_match": "Buscar partida"
   },
   "friends": {
     "title": "Lista de amigos",
