@@ -89,9 +89,8 @@
     "logout": "Logout"
   },
   "dashboard": {
-    "hello": "Hello",
-    "ready": "Are you ready to play?",
     "play": "Play Now",
+	"select_mode": "Select Game Mode",
     "friends": "Friends",
     "profile": "Profile",
 	"ranking": "Ranking",
@@ -99,6 +98,24 @@
     "profile_info": "View your profile",
     "ranking_info": "Top players ranking",
 	"collection_info": "View your collection"
+  },
+  "game_modes": {
+	"title": "Select Game Mode",
+	"subtitle": "Choose your battlepath to glory.",
+	"campaign": "Campaign (PvE)",
+	"campaign_desc": "Learn the rules, unlock cards, and master the mechanics. Perfect for beginners.",
+	"current_phase": "Current Phase",
+	"casual": "Casual Match (PvP)",
+	"casual_desc": "Practice against other players without ranking pressure. Earn XP.",
+	"unlimited": "Unlimited",
+	"no_cost_limit": "No Cost Limit",
+	"limited": "Limited",
+	"cost_limit": "Max cost 4",
+	"ranked": "Ranked Match (PvP)",
+	"locked_ranked": "Complete Phase 3 in Campaign to unlock",
+	"ranked_desc": "Competitive mode with all rules active. Climb the leaderboard.",
+	"deck_limit": "Deck Cost Limit",
+	"find_match": "Find Match"
   },
   "friends": {
     "title": "Friends List",

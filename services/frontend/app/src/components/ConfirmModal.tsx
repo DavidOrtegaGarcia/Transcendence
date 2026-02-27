@@ -26,8 +26,8 @@ const ConfirmModal = ({
     if (!isOpen) return null;
 
     return createPortal(
-        <div className="fixed inset-0 z-9999 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-            <div className="glass-panel p-6 max-w-sm w-full shadow-2xl transform transition-all scale-100 relative z-10">
+        <div className="modal-backdrop animate-fade-in">
+    		<div className="modal-content max-w-sm p-6 scale-100">
                 
                 <h3 className="text-xl font-bold text-white mb-2 tracking-wide">
                     {title}

@@ -10,7 +10,6 @@ import ConfirmModal from '../components/ConfirmModal';
 import type { UserProfile } from '../models/User';
 import { validatePassword } from '../utils/validators';
 import userService from '../services/userService';
-import { changeLanguage } from 'i18next';
 import { useAuth } from '../context/AuthContext';
 import { langMapper } from '../utils/langMapper';
 

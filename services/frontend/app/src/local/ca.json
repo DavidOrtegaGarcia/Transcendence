@@ -88,6 +88,7 @@
   },
   "dashboard": {
     "play": "Jugar ara",
+	"select_mode": "Selecciona el mode de joc",
     "friends": "Amics",
     "profile": "Perfil",
 	"ranking": "Rànquing",
@@ -95,6 +96,24 @@
     "profile_info": "Veure el teu perfil",
     "ranking_info": "Top players ranking",
 	"collection_info": "Veure la teva colecció"
+  },
+  "game_modes": {
+	"title": "Selecciona el mode de joc",
+	"subtitle": "Tria el teu camí cap a la glòria.",
+	"campaign": "Campanya (PvE)",
+	"campaign_desc": "Aprende les regles, desbloqueja cartes i domina les mecàniques. Perfecte per a principiants.",
+	"current_phase": "Fase actual",
+	"casual": "Partida casual (PvP)",
+	"casual_desc": "Practica contra altres jugadors sense pressupost de classificació. Guanya XP.",
+	"unlimited": "Il·limitat",
+	"no_cost_limit": "Sense límit de cost",
+	"limited": "Limitat",
+	"cost_limit": "Cost màxim 4",
+	"ranked": "Partida classificada (PvP)",
+	"locked_ranked": "Completa la Fase 3 a la Campanya per desbloquejar",
+	"ranked_desc": "Mode competitiu amb totes les regles actives. Puja al classificat.",
+	"deck_limit": "Límit de cost del mazo",
+	"find_match": "Trobar partida"
   },
   "friends": {
     "title": "Llista d'amics",
