@@ -13,7 +13,7 @@ export interface UpdateProfilePayload {
 const userService = {
 	/* Get user profile by id */
 	getProfile: async (id: string | number): Promise<UserProfile> => {
-		const response = await api.get(`/api/users/${id}`);
+		const response = await api.get(`/user`);
 		return response.data;
 	},
 	/* Update user profile */
