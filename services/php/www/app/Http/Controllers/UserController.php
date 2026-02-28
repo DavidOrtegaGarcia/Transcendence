@@ -70,9 +70,9 @@ class UserController
         $user = auth()->user();
 
         $request->validate([
-            'username' => ['required', 'string', 'max:255'],
+            'username' => ['nullable', 'string', 'max:255'],
             'email' => [
-                'required',
+                'nullable',
                 'string',
                 'email',
                 'max:255',
@@ -84,17 +84,17 @@ class UserController
                 'max:255',
             ],
             'avatar' => ['nullable', 'image', 'max:2048'],
-            'language' => [Rule::enum(Language::class)]
+            'language' => ['nullable', Rule::enum(Language::class)]
         ]);
 
-        $user->forceFill([
-            'name' => $request['username'],
-            'email' => $request['email'],
-            'bio' => $request['bio'],
-            'language' => $request['language']
+        $user->fill([
+            'name' => $data['username'] ?? $user->name,
+            'email' => $data['email'] ?? $user->email,
+            'bio' => $data['bio'] ?? $user->bio,
+            'language' => $data['language'] ?? $user->language,
         ]);
 
-        if (isset($request['avatar'])) 
+        if ($request->hasFile('avatar')) 
         {
             $user->updateAvatar($request['avatar']);
         }

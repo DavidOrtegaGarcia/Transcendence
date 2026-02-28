@@ -1,6 +1,5 @@
 <?php
 
-use App\Events\Ping;
 use App\Http\Controllers\FriendshipController;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\OAuthController;
@@ -33,8 +32,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('/v1')->group(function () {
         // Own user
         Route::get('/user', [UserController::class, 'getOwnUser']);
-        Route::put('/user/password/update', [UserController::class, 'updateOwnPassword']);
         Route::patch('/user/update', [UserController::class, 'updateUser']);
+        Route::put('/user/password/update', [UserController::class, 'updateOwnPassword']);
     
         // User
         Route::get('/users', [UserController::class, 'getUsers']);
@@ -86,24 +85,3 @@ Route::get('/v1/chats/{chat}', [ChatController::class, 'getChat']);
 Route::get(config('oauth.uri_generation'), [OAuthController::class, 'getRedirectUri']);
 
 Route::post(config('oauth.redirected').'/{provider}', [OAuthController::class, 'handleOAuthResponse']);
-
-Route::get('/v1/reverb-ping-private', function () {
-    \Log::info('Auth attempt', [
-        'user_id' => $user->id ?? 'Guest',
-        'is_logged_in' => \Auth::check()
-    ]);
-
-    Ping::dispatch("private");
-    return response()->json(['ok'], 200);
-
-});
-
-Route::get('/v1/reverb-ping-presence', function () {
-    Ping::dispatch("presence");
-    return response()->json(['ok'], 200);
-});
-
-Route::get('/v1/reverb-ping-public', function () {
-    Ping::dispatch("public");
-    return response()->json(['ok', 'id' => Auth::id()], 200);
-});
