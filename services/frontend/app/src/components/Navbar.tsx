@@ -67,8 +67,8 @@ const Navbar = () => {
 						{t('navbar.ranking')}
 					</Link>
 
-					<Link to="/chat" className={`flex items-center gap-2 ${getDesktopClass("/chat")}`}>
-						{t('navbar.chat')}
+					<Link to="/collection" className={`flex items-center gap-2 ${getDesktopClass("/collection")}`}>
+						{t('navbar.collection')}
 					</Link>
 
 					<div className="h-6 w-px bg-white/10 mx-2"></div>

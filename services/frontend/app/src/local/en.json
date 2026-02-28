@@ -13,7 +13,7 @@
     "loading": "Loading...",
 	"avatar": "Avatar",
 	"accept": "Accept",
-	"decline": "Decline"
+	"decline": "Cancel"
   },
   "validation": {
     "required": "This field is required.",
@@ -84,7 +84,7 @@
     "dashboard": "Dashboard",
     "friends": "Friends",
     "ranking": "Ranking", 
-    "chat": "Chat",
+    "collection": "Collection",
     "profile": "Profile",
     "logout": "Logout"
   },

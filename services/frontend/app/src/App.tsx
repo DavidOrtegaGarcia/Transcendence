@@ -60,6 +60,8 @@ function App() {
 
 						{/* Route to Lobby with query parameters for mode and submode (ej: /lobby?mode=casual&submode=limited) */}
 						<Route path="/lobby" element={<Lobby />} />
+
+						{/* <Route path="/collection" element={<Collection />} /> */}
                     </Route>
 
 					{/* Catch-all route for undefined paths */}
