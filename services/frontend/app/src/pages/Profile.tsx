@@ -44,6 +44,7 @@ const Profile = () => {
                 if (!targetId) throw new Error("No user specified");
 
                 const data = await userService.getProfile(targetId);
+				console.log("Datos de perfil obtenidos:", data);
                 setProfileData(data);
             } catch (error: any) {
                 console.error("Error al obtener los datos de la base de datos:", error);
@@ -66,7 +67,7 @@ const Profile = () => {
                         {/* HEADER: Le pasamos el avatar tal cual viene de BD, el componente lo procesa */}
                         <ProfileHeader
                             userData={{
-                                username: profileData.username,
+                                username: profileData.name,
                                 email: profileData.email || "",
                                 avatar: profileData.avatar,
                                 bio: profileData.bio,
