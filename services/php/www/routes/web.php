@@ -5,6 +5,7 @@ use App\Http\Controllers\GameController;
 use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChatController;
+use App\Http\Controllers\MediaController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -85,3 +86,5 @@ Route::get('/v1/chats/{chat}', [ChatController::class, 'getChat']);
 Route::get(config('oauth.uri_generation'), [OAuthController::class, 'getRedirectUri']);
 
 Route::post(config('oauth.redirected').'/{provider}', [OAuthController::class, 'handleOAuthResponse']);
+
+Route::get('/media/{path}', [MediaController::class, 'getMedia'])->where('path', '.*');

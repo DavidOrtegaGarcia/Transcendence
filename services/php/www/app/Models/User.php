@@ -64,7 +64,7 @@ class User extends Authenticatable
 
     public function updateAvatar($avatar)
     {
-        $path = $avatar->store('storage/avatars', 'public');
+        $path = $avatar->store('media/avatars', 'public');
 
         if ($this->avatar) 
         {
