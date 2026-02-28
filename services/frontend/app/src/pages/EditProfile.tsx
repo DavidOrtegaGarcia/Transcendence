@@ -13,7 +13,7 @@ import userService from '../services/userService';
 import { useAuth } from '../context/AuthContext';
 import { langMapper } from '../utils/langMapper';
 import Cropper from 'react-easy-crop';
-import getCroppedImg from '../utils/CropImage' // Corregida minúscula si aplica
+import getCroppedImg from '../utils/cropImage';
 import dragonAvatar from '../../public/assets/avatars/dragon.png';
 import rogueAvatar from '../../public/assets/avatars/rogue.png';
 import queenAvatar from '../../public/assets/avatars/queen.png';

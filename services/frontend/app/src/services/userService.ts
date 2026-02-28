@@ -13,13 +13,14 @@ export interface UpdateProfilePayload {
 const userService = {
 	/* Get user profile by id */
 	getProfile: async (id: string | number): Promise<UserProfile> => {
-		const response = await api.get(`/user`);
+		const response = await api.get(`/v1/user`);
 		return response.data;
 	},
+
 	/* Update user profile */
 	updateProfile: async (formData: FormData): Promise<UserProfile> => {
 		formData.append('_method', 'PATCH');
-		const response = await api.post(`/api/v1/user/update`, formData, {
+		const response = await api.post(`/v1/user/update`, formData, {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -29,7 +30,7 @@ const userService = {
 
 	/* Update user password */
 	updatePassword: async (password: string): Promise<any> => {
-		const response = await api.put('/api/v1/user/password', { password });
+		const response = await api.put('/v1/user/password', { password });
 		return response.data;
 	},
 

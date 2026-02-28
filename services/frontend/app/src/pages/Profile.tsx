@@ -67,7 +67,7 @@ const Profile = () => {
                         {/* HEADER: Le pasamos el avatar tal cual viene de BD, el componente lo procesa */}
                         <ProfileHeader
                             userData={{
-                                username: profileData.name,
+                                username: profileData.username,
                                 email: profileData.email || "",
                                 avatar: profileData.avatar,
                                 bio: profileData.bio,
