@@ -20,7 +20,7 @@ const Footer = ({ className = "" }: FooterProps) => {
                         title= {t('footer.privacy')}
                 >
                 {t('footer.privacy')} </Link>
-                { "  |  " }
+                <span className='mx-2'>|</span>
                 <Link
                         to="/terms_of_service"
                         className="inline-flex items-center justify-center hover:text-brand-600 transition-colors"

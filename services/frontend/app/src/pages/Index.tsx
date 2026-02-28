@@ -37,7 +37,7 @@ const Index = () => {
         fetchFriends();
     }, []);
 
-	/* Real fetch cuando tenga la BBDD */
+    /* Real fetch cuando tenga la BBDD */
     // useEffect(() => {
     //     const fetchFriends = async () => {
     //         try {
@@ -59,7 +59,7 @@ const Index = () => {
         <DashboardLayout isCentered={false}>
             <div className="max-w-5xl mx-auto w-full animate-fade-in-up pb-10">
 
-                {/* Header with user info */}
+                {/* Header with user info (Se le pasa el user entero, el ProfileHeader ya sabe qué hacer) */}
                 <ProfileHeader userData={user} isOwnProfile={true} />
 
                 {/* Contenedor del Grid */}
@@ -74,7 +74,7 @@ const Index = () => {
                         onClick={() => setShowModeSelector(true)}
                     />
                     
-                    {/* Friends Card - Limpiado el tag <Link> redundante */}
+                    {/* Friends Card */}
                     <DashboardCard
                         title={t('dashboard.friends') + ` (${friendsList.length})`}
                         subtitle={`Online: ${friendsList.filter(f => f.status === 'online').length + friendsList.filter(f => f.status === 'playing').length}`}
@@ -92,8 +92,8 @@ const Index = () => {
 
                     {/* Collection Card */}
                     <DashboardCard
-                        title={t('dashboard.collection') || "Collection"}
-                        subtitle={t('dashboard.collection_info') || "View your special cards"}
+                        title={t('dashboard.collection') }
+                        subtitle={t('dashboard.collection_info')}
                         icon={<FaImages />}
                         onClick={() => navigate("/collection")}
                     />
@@ -101,7 +101,7 @@ const Index = () => {
                 
             </div>
 
-            {/* 3. Modal de Modos de Juego - Recibiendo la prop isOpen */}
+            {/* Modal de Modos de Juego */}
             <GameModeModal 
                 isOpen={showModeSelector} 
                 onClose={() => setShowModeSelector(false)} 

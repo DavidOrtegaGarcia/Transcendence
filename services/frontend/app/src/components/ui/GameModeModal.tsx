@@ -15,7 +15,7 @@ const GameModeModal: React.FC<GameModeModalProps> = ({ isOpen, onClose }) => {
     const navigate = useNavigate();
     const { user } = useAuth();
     
-    const isRankedUnlocked = (user?.experience || 200) > 100; 
+    const isRankedUnlocked = (user?.experience || 0) > 100; 
 
     const handleSelectMode = (mode: string, submode?: string) => {
         const queryParams = submode ? `?mode=${mode}&submode=${submode}` : `?mode=${mode}`;

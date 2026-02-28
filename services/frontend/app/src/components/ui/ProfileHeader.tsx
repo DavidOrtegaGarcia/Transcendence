@@ -16,6 +16,20 @@ interface ProfileHeaderProps {
 const ProfileHeader = ({ userData, isOwnProfile }: ProfileHeaderProps) => {
     const { t } = useTranslation();
 
+    const getFullAvatarUrl = (avatarPath?: string) => {
+        if (!avatarPath) return undefined;
+
+        if (avatarPath.startsWith('http') || avatarPath.startsWith('data:') || avatarPath.startsWith('/src/assets/')) {
+            return avatarPath;
+        }
+
+        // Si es una ruta de base de datos como "avatars/xyz.png", le añadimos la ruta pública de Laravel
+        const cleanPath = avatarPath.startsWith('/') ? avatarPath : `/${avatarPath}`;
+        return cleanPath.includes('storage/') ? cleanPath : `/storage${cleanPath}`;
+    };
+
+    const finalAvatarUrl = getFullAvatarUrl(userData.avatar);
+
     return (
         <div className="glass-panel p-6 md:p-8 mb-8 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-80 h-80 bg-brand-500/10 blur-[100px] rounded-full -translate-y-1/2 translate-x-1/4"></div>
@@ -23,8 +37,9 @@ const ProfileHeader = ({ userData, isOwnProfile }: ProfileHeaderProps) => {
             <div className="flex flex-col md:flex-row items-center md:items-start gap-6 md:gap-8 relative z-10">
                 <div className="relative shrink-0">
                     <div className="w-28 h-28 md:w-36 md:h-36 rounded-full border-4 border-dark-800 shadow-2xl overflow-hidden bg-dark-900 flex items-center justify-center">
-                        {userData.avatar ? (
-                            <img src={userData.avatar} alt="Profile" className="w-full h-full object-cover" />
+						
+                        {finalAvatarUrl ? (
+                            <img src={finalAvatarUrl} alt="Profile" className="w-full h-full object-cover" />
                         ) : (
                             <FaUser className="text-slate-600 w-1/2 h-1/2" />
                         )}

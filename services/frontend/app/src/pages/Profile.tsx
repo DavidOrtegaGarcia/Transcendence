@@ -5,7 +5,7 @@ import { FaGamepad, FaTrophy, FaExclamationTriangle } from "react-icons/fa";
 import { MdHistory } from "react-icons/md";
 import DashboardLayout from '../components/layouts/DashboardLayout';
 import LoadingState from '../components/ui/LoadingState';
-import PlayerBadge from '../components/ui/PlayerBadge'; 
+import PlayerBadge from '../components/ui/PlayerBadge';
 import type { UserProfile } from '../models/User';
 import { useAuth } from '../context/AuthContext';
 import userService from '../services/userService';
@@ -14,7 +14,7 @@ import ProfileHeader from '../components/ui/ProfileHeader';
 const Profile = () => {
     const { t } = useTranslation();
     const { id } = useParams<{ id: string }>();
-    
+
     /* Get authenticated user from context */
     const { user: authUser, isLoading: isAuthLoading } = useAuth();
 
@@ -35,22 +35,17 @@ const Profile = () => {
     };
 
     useEffect(() => {
-        // 1. Esperamos a que la autenticación termine
         if (isAuthLoading) return;
 
         const fetchProfileData = async () => {
             setIsLoading(true);
             try {
-				// En peticiones GET de Sanctum, si ya estás logueado, 
-				// withCredentials: true en api.ts es suficiente.
-				const targetId = id || authUser?.id;
-				if (!targetId) throw new Error("No user specified");
+                const targetId = id || authUser?.id;
+                if (!targetId) throw new Error("No user specified");
 
-				const data = await userService.getProfile(targetId);
-				setProfileData(data);
-			} catch (error: any) {
-                // 4. Si el usuario no existe, el backend devolverá 404. 
-                // El catch lo atrapará y pondrá profileData a null, mostrando el triángulo de error.
+                const data = await userService.getProfile(targetId);
+                setProfileData(data);
+            } catch (error: any) {
                 console.error("Error al obtener los datos de la base de datos:", error);
                 setProfileData(null);
             } finally {
@@ -68,17 +63,17 @@ const Profile = () => {
             <div className="max-w-5xl mx-auto w-full animate-fade-in-up pb-20">
                 {profileData ? (
                     <>
-                        {/* HEADER */}
-                        <ProfileHeader 
-							userData={{
-								username: profileData.username,
-								email: profileData.email || "",
-								avatar: profileData.avatar,
-								bio: profileData.bio,
-								experience: profileData.experience
-							}} 
-							isOwnProfile={isOwnProfile} 
-						/>
+                        {/* HEADER: Le pasamos el avatar tal cual viene de BD, el componente lo procesa */}
+                        <ProfileHeader
+                            userData={{
+                                username: profileData.username,
+                                email: profileData.email || "",
+                                avatar: profileData.avatar,
+                                bio: profileData.bio,
+                                experience: profileData.experience
+                            }}
+                            isOwnProfile={isOwnProfile}
+                        />
 
                         {/* STATS */}
                         <h3 className="text-xl font-bold text-white mb-4 flex items-center gap-2"><FaTrophy className="text-warning" /> {t('profile.stats')}</h3>
@@ -103,9 +98,9 @@ const Profile = () => {
                                                 <div className={`absolute left-0 top-0 bottom-0 w-1 ${styles.border}`}></div>
                                                 <div className="flex justify-between items-center w-full pl-3 mb-3">
                                                     <div className="flex-1">
-                                                        <PlayerBadge 
-                                                            avatar={undefined} 
-                                                            name={match.opponent} 
+                                                        <PlayerBadge
+                                                            avatar={undefined}
+                                                            name={match.opponent}
                                                             className="justify-start! [&>div:first-child]:w-auto [&>div:first-child]:pr-3 [&>div:last-child]:w-auto [&>div:last-child]:pl-3"
                                                         />
                                                     </div>
