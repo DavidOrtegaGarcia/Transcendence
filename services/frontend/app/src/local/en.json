@@ -21,7 +21,9 @@
     "opponent": "Opponent",
     "exit": "Exit",
     "show_all": "Show all",
-    "show_less": "Show less"
+    "show_less": "Show less",
+	"next": "Next",
+	"previous": "Previous"
   },
   "validation": {
     "required": "This field is required.",
@@ -141,10 +143,12 @@
     "already_friend": "Friend",
     "pending": "Pending",
     "sent": "Sent",
-    "add_friend": "Add Friend",
-    "remove_friend": "Remove Friend",
+    "add_friend": "Add friend",
+	"accept_request": "Accept friend",
+    "remove_friend": "Remove friend",
     "request_sent": "Wants to be your friend",
-    "pending_requests": "Pending Requests",
+    "pending_requests": "Pending requests",
+	"request_received": "Do you want to accept?",
     "remove_alert": "Are you sure you want to remove this friend? This action cannot be undone.",
     "online": "Online",
     "offline": "Offline",

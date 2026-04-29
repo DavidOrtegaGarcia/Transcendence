@@ -34,24 +34,27 @@ const FriendCard = ({ name, icon, avatar, status = 'offline', onProfileClick, on
 
             {/* Left: Info */}
             <div className="flex items-center gap-4 w-full md:w-auto">
-                <div className="w-12 h-12 bg-dark-900 rounded-full flex items-center justify-center text-slate-300">
-                    {avatarUrl ? (
-                        <img src={avatarUrl} alt={`${name}'s avatar`} className="w-12 h-12 rounded-full object-cover" />
-                    ) : (
-                        <FaUser size={22} />
-                    )}
-                </div>
-                <div className="flex flex-col text-left">
-                    <h3 className="text-lg font-bold text-white tracking-wide font-sans group-hover:text-brand-400 transition-colors">
-                        {name}
-                    </h3>
-                    <span className={`flex flex-inline items-center text-xs uppercase tracking-wider font-bold ${currentStatus.text}`}>
-                        <span className="mr-1 text-[10px] opacity-80">
-                            {icon}
+                <button 
+                    onClick={onProfileClick}
+                    className="flex items-center gap-4 text-left group/info focus:outline-none"
+                >
+                    <div className="w-12 h-12 bg-dark-900 rounded-full flex items-center justify-center text-slate-300 border border-white/5 group-hover/info:border-brand-500/50 transition-colors overflow-hidden">
+                        {avatarUrl ? (
+                            <img src={avatarUrl} alt={`${name}'s avatar`} className="w-full h-full object-cover" />
+                        ) : (
+                            <FaUser size={22} />
+                        )}
+                    </div>
+                    <div className="flex flex-col">
+                        <h3 className="text-lg font-bold text-white tracking-wide group-hover/info:text-brand-400 transition-colors">
+                            {name}
+                        </h3>
+                        <span className={`flex items-center text-xs uppercase tracking-wider font-bold ${currentStatus.text}`}>
+                            <span className="mr-1 text-[10px] opacity-80">{icon}</span>
+                            {currentStatus.label}
                         </span>
-                        {currentStatus.label}
-                    </span>
-                </div>
+                    </div>
+                </button>
             </div>
 
             {/* Right: Actions */}

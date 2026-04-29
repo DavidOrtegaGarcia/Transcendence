@@ -55,16 +55,16 @@ const Friends = () => {
 
 	/* Fetch friends from database */
 	useEffect(() => {
-        fetchFriendsData();
+		fetchFriendsData();
 
 		/* Global event listener to update friends list when we accept/decline from friends page or receive new request */
-        window.addEventListener('updateFriendNotifications', fetchFriendsData);
+		window.addEventListener('updateFriendNotifications', fetchFriendsData);
 
 		/* Cleanup the listener when we leave the page */
-        return () => {
-            window.removeEventListener('updateFriendNotifications', fetchFriendsData);
-        };
-    }, [authUser]);
+		return () => {
+			window.removeEventListener('updateFriendNotifications', fetchFriendsData);
+		};
+	}, [authUser]);
 
 	const fetchFriendsData = async () => {
 		if (!authUser) return;
@@ -139,25 +139,25 @@ const Friends = () => {
 	}, [searchQuery]);
 
 	/* Listen for real-time status changes from SocketContext */
-    useEffect(() => {
-        const handleStatusChange = (e: any) => {
-            const { userId, newStatus } = e.detail;
+	useEffect(() => {
+		const handleStatusChange = (e: any) => {
+			const { userId, newStatus } = e.detail;
 
-            setFriendsList((prevFriends) => 
-                prevFriends.map((friend) => 
-                    Number(friend.id) === Number(userId) 
-                        ? { ...friend, status: newStatus } 
-                        : friend
-                )
-            );
-        };
+			setFriendsList((prevFriends) =>
+				prevFriends.map((friend) =>
+					Number(friend.id) === Number(userId)
+						? { ...friend, status: newStatus }
+						: friend
+				)
+			);
+		};
 
-        window.addEventListener('friendStatusChanged', handleStatusChange);
-        
-        return () => {
-            window.removeEventListener('friendStatusChanged', handleStatusChange);
-        };
-    }, []);
+		window.addEventListener('friendStatusChanged', handleStatusChange);
+
+		return () => {
+			window.removeEventListener('friendStatusChanged', handleStatusChange);
+		};
+	}, []);
 
 	/* Send friend request */
 	const handleSendRequest = async (friendId: number) => {
@@ -169,7 +169,7 @@ const Friends = () => {
 
 			const friendData = searchResults.find(u => Number(u.id) === friendId);
 			if (friendData) {
-				
+
 				// Añadimos el objeto de amigo simulando la respuesta del backend
 				const optimisticFriend = {
 					...friendData,
@@ -389,15 +389,25 @@ const Friends = () => {
 									{pendingRequests.map((req) => (
 										<div key={req.id} className="glass-panel p-4 flex items-center justify-between border-l-4 border-l-warning">
 											<div className="flex items-center gap-4">
-												<div className="w-12 h-12 rounded-full bg-dark-900 border border-white/10 overflow-hidden flex items-center justify-center">
+												<button
+													onClick={() => handleShowProfile(req.id)}
+													className="w-12 h-12 rounded-full bg-dark-900 border border-white/10 overflow-hidden flex items-center justify-center hover:border-brand-500/50 transition-colors shrink-0"
+												>
 													{req.avatar ? (
 														<img src={userService.getFullAvatarUrl(req.avatar)} alt="" className="w-full h-full object-cover" />
 													) : (
 														<FaUserPlus className="text-slate-600" />
 													)}
-												</div>
-												<div>
-													<h3 className="text-white font-bold">{req.username}</h3>
+												</button>
+
+												<div className="flex flex-col items-start">
+													{/* Nombre interactivo */}
+													<button
+														onClick={() => handleShowProfile(req.id)}
+														className="text-white font-bold hover:text-brand-400 transition-colors text-left"
+													>
+														{req.username}
+													</button>
 													<p className="text-xs text-slate-400">{t('friends.request_sent')}</p>
 												</div>
 											</div>

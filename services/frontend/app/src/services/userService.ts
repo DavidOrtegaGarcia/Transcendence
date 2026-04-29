@@ -15,10 +15,10 @@ const userService = {
 	/* Get user profile by id */
 	getProfile: async (id?: string | number, lang: string = 'es'): Promise<UserProfile> => {
 		const noCache = new Date().getTime();
-		const url = id 
-            ? `/v1/users/${id}?lang=${lang}&_t=${noCache}` 
-            : `/v1/user?lang=${lang}&_t=${noCache}`;
-            
+		const url = id
+			? `/v1/users/${id}?lang=${lang}&_t=${noCache}`
+			: `/v1/user?lang=${lang}&_t=${noCache}`;
+
 		const response = await api.get(url, {
 			headers: { 'Accept-Language': lang }
 		});
@@ -86,6 +86,13 @@ const userService = {
 		return response.data;
 	},
 
+	acceptFriendRequest: async (friendId: string | number): Promise<any> => {
+		// Asumiendo que tu API usa PATCH y requiere el ID del amigo
+		// Ajusta la URL según tu backend, por ejemplo: /v1/friends/accept/${friendId}
+		const response = await api.patch(`/v1/friends/accept/${friendId}`);
+		return response.data;
+	},
+
 	/* Delete friend */
 	removeFriend: async (userId: string | number, friendId: string | number): Promise<any> => {
 		const response = await api.delete(`/v1/users/${userId}/friends/${friendId}`);
@@ -100,25 +107,25 @@ const userService = {
 
 	/* Get ALL cards */
 	/* Save language preference in the header and force to refresh to avoid cache errors */
-    getAllCards: async (lang: string = 'es'): Promise<any[]> => {
-        const noCache = new Date().getTime();
-        
-        const response = await api.get(`/v1/cards?lang=${lang}&_t=${noCache}`, {
-            headers: { 'Accept-Language': lang }
-        });
-        return response.data.data || response.data;
-    },
+	getAllCards: async (lang: string = 'es'): Promise<any[]> => {
+		const noCache = new Date().getTime();
 
-    /* Get User cards */
+		const response = await api.get(`/v1/cards?lang=${lang}&_t=${noCache}`, {
+			headers: { 'Accept-Language': lang }
+		});
+		return response.data.data || response.data;
+	},
+
+	/* Get User cards */
 	/* Save language preference in the header and force to refresh to avoid cache errors */
-    getCards: async (lang: string = 'es'): Promise<any[]> => {
-        const noCache = new Date().getTime();
-		
-        const response = await api.get(`/v1/user/cards?lang=${lang}&_t=${noCache}`, {
-            headers: { 'Accept-Language': lang }
-        });
-        return response.data.data || response.data;
-    },
+	getCards: async (lang: string = 'es'): Promise<any[]> => {
+		const noCache = new Date().getTime();
+
+		const response = await api.get(`/v1/user/cards?lang=${lang}&_t=${noCache}`, {
+			headers: { 'Accept-Language': lang }
+		});
+		return response.data.data || response.data;
+	},
 
 	/* Get Ranking */
 	getRanking: async (): Promise<(RankingUser & { stats: PlayerStats })[]> => {

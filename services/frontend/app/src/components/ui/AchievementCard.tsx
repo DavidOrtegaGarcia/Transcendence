@@ -64,7 +64,7 @@ const AchievementCard = ({ achievement, isOwnProfile, rewardCard, onClaimReward 
                     
                     {/* Imagen con efectos de estado (como el dorso de las cartas) */}
                     <img 
-                        src={achievement.image_url} 
+                        src={achievement.image_url ?? undefined} 
                         alt={achievement.title}
                         className={`w-full h-full object-cover transition-all duration-700 
                             ${!achievement.is_unlocked 
@@ -109,14 +109,14 @@ const AchievementCard = ({ achievement, isOwnProfile, rewardCard, onClaimReward 
                                 onClick={() => onClaimReward(achievement.id)}
                                 className="w-full sm:w-auto bg-brand-500 hover:bg-brand-600 text-white text-[10px] font-black py-2 px-5 rounded-lg shadow-[0_0_15px_rgba(59,130,246,0.4)] transition-all transform hover:scale-105 active:scale-95 animate-pulse"
                             >
-                                {t('profile.claim_reward', 'RECLAMAR RECOMPENSA')}
+                                {t('profile.claim_reward')}
                             </button>
                         )
                     ) : (
                         <div className="space-y-2">
                             {/* Barra de progreso si está bloqueado */}
-                            {!achievement.is_unlocked && achievement.goal > 1 && (
-                                <div className="max-w-[200px] mx-auto sm:mx-0">
+                            {showProgressBar && (
+                                <div className="max-w-50 mx-auto sm:mx-0">
                                     <div className="flex justify-between text-[9px] font-bold mb-1">
                                         <span className="text-slate-600 uppercase">{t('profile.progress', 'Progreso')}</span>
                                         <span className="text-slate-500">{achievement.current_progress} / {achievement.goal}</span>
@@ -140,7 +140,7 @@ const AchievementCard = ({ achievement, isOwnProfile, rewardCard, onClaimReward 
             </div>
 
             {/* DERECHA: Puntos y Carta */}
-            <div className="shrink-0 flex flex-col items-center justify-start gap-2.5 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t border-white/5 sm:border-t-0 sm:border-l sm:pl-3 w-full sm:w-[85px] min-h-[110px]">
+            <div className="shrink-0 flex flex-col items-center justify-start gap-2.5 mt-4 sm:mt-0 pt-4 sm:pt-0 border-t border-white/5 sm:border-t-0 sm:border-l sm:pl-3 w-full sm:w-21.25 min-h-27.5">
 
                 {/* Bloque Superior: Siempre arriba */}
                 <div className="flex flex-col items-center gap-1 w-full shrink-0">
@@ -159,7 +159,7 @@ const AchievementCard = ({ achievement, isOwnProfile, rewardCard, onClaimReward 
 
                 {/* Bloque Inferior Centrado: Carta (si existe) */}
                 {rewardCard ? (
-                    <div className="relative group flex justify-center items-center flex-1 w-full min-h-[60px]">
+                    <div className="relative group flex justify-center items-center flex-1 w-full min-h-15">
                         {/* Este div reserva el espacio para que la ampliación sea central */}
                         <div className="flex justify-center items-center w-12 h-16 pointer-events-none">
                             <div className={`w-9 h-13 sm:w-9.5 sm:h-13.5 shadow-xl rounded-sm transition-all duration-300 ease-out z-10 pointer-events-auto

@@ -37,9 +37,9 @@ export interface AuthContextType {
     isAuthenticated: boolean;
 	/* Loading state to verify the cookie on reload */ 
     isLoading: boolean; 
-	/* This will be the API call to log in */
+	pendingFriendsCount: number;
+	setPendingFriendsCount: (count: number) => void;
     login: (userData: LoginCredentials) => Promise<void>;
 	register: (userData: RegisterCredentials) => Promise<void>;
-	/* This will be the API call to log out */
     logout: () => void;
 }

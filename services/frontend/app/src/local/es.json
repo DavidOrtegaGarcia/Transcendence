@@ -20,7 +20,9 @@
     "opponent": "Oponente",
     "exit": "Salir",
     "show_all": "Mostrar todo",
-    "show_less": "Mostrar menos"
+    "show_less": "Mostrar menos",
+	"next": "Siguiente",
+	"previous": "Anterior"
   },
   "validation": {
     "required": "Este campo es obligatorio.",
@@ -140,9 +142,11 @@
     "pending": "Pendiente",
     "sent": "Enviada",
     "add_friend": "Añadir amigo",
+	"accept_request": "Aceptar amigo",
     "remove_friend": "Eliminar amigo",
     "request_sent": "Quiere ser tu amigo",
     "pending_requests": "Solicitudes Pendientes",
+	"request_received": "¿Quieres aceptar?",
     "remove_alert": "¿Estás seguro de que quieres eliminar a este amigo? Esta acción no se puede deshacer.",
     "online": "Online",
     "offline": "Offline",

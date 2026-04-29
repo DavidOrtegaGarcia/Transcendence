@@ -20,7 +20,9 @@
     "opponent": "Oponent",
     "exit": "Sortir",
     "show_more": "Mostrar tot",
-    "show_less": "Mostrar menys"
+    "show_less": "Mostrar menys",
+	"next": "Següent",
+	"previous": "Anterior"
   },
   "validation": {
     "required": "Aquest camp és obligatori.",
@@ -140,9 +142,11 @@
     "pending": "Pendent",
     "sent": "Enviada",
     "add_friend": "Afegir amic",
+	"accept_request": "Acceptar amic",
     "remove_friend": "Eliminar amic",
     "request_sent": "Vols ser el teu amic",
     "pending_requests": "Sol·licituds pendents",
+	"request_received": "Vols acceptar?",
     "remove_alert": "Estàs segur que vols eliminar aquest amic? Aquesta acció no es pot desfer.",
     "online": "Online",
     "offline": "Offline",

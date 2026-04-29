@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { User, AuthContextType } from './Auth';
 import authService from '../services/authService';
-import userService from '../services/userService'; // 1. Importación necesaria
+import userService from '../services/userService';
 import type { LoginCredentials, RegisterCredentials } from './Auth';
 import i18n from '../i18n';
 
@@ -21,9 +21,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         try {
             const data = await userService.getFriends(userId);
             const pending = data.filter((f: any) => {
-                const status = f.friendship_status || f.pivot?.status;
-                const requesterId = Number(f.pivot?.requester_id);
-                return status === 'pending' && requesterId !== Number(userId);
+				const status = f.friendship_status || f.pivot?.status || f.status;
+				const requesterId = Number(f.pivot?.requester_id || f.requester_id);
+                return status === 'pending' && requesterId !== Number(userId);            
+            	
             });
             setPendingFriendsCount(pending.length);
         } catch (error) {
@@ -101,8 +102,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return (
         <AuthContext.Provider value={{
             user,
-            isAuthenticated: !!user,
-            setUser,
+			setUser,
+			isAuthenticated: !!user,
             isLoading,
             pendingFriendsCount,
             setPendingFriendsCount,
